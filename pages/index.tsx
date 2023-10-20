@@ -244,6 +244,10 @@ export default function Home() {
       type: ACTIONS.SET_ADDRESS,
       payload: "",
     });
+    dispatch({
+      type: ACTIONS.SET_IS_CONNECTED,
+      payload: false,
+    });
     if (isConnected) {
       await disconnect();
     }
@@ -302,7 +306,7 @@ export default function Home() {
       toast.error(err.message);
     }
   };
-  console.log(isConnected, "isConnected");
+
   useEffect(() => {
     if (address && !isConnecting && connecting) {
       localStorage.setItem("isConnected", "true");
@@ -320,7 +324,7 @@ export default function Home() {
       handleSteps(ESTEPS.THREE);
     }
   }, [isConnecting]);
-  console.log(walletAddress, "walletAddress");
+
   return (
     <div>
       {isConnected ? (
