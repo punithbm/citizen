@@ -45,8 +45,9 @@ module.exports = {
         text: {
           100: "#BABDC2",
           500: "#484D57",
-          900: "#0A0D14",
           600: "#797F8A",
+
+          900: "#0A0D14",
         },
         secondary: {
           50: "#F5F5F5",
@@ -55,6 +56,7 @@ module.exports = {
           300: "#F5F5F5",
           500: "#464E59",
           600: "#44484F",
+          700: "#ECECEC",
         },
         lightGray: "#2B2D30",
       },

@@ -30,13 +30,14 @@ const Header = (props: IHeader) => {
       {step === 1 || step === 2 ? (
         <Image src={icons.logo} alt="logo" className="w-10" />
       ) : (
-        <>
+        <div className="flex items-center gap-3">
           <BackBtn
             onClick={() => {
               step === 3 ? handleSteps?.(step - 1) : router.back();
             }}
           />
-        </>
+          <p className="heading3_bold text-white">Send</p>
+        </div>
       )}
 
       <div className="flex gap-4 items-center">

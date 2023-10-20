@@ -147,127 +147,81 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
   };
 
   return (
-    <div className="pt-[156px] bg-white h-[100dvh] relative">
+    <div className="pt-[120px] bg-white h-[100dvh] relative">
       <div className="container mx-auto relative">
         {!transactionLoading ? (
           <div>
             {!showActivity ? (
               <>
-                <div className="rounded-lg border border-secondary-100 ">
-                  <div className="flex items-center justify-between py-2 px-4">
-                    <div>
-                      <p className="text-secondary-100 paragraph">
-                        YOUR BALANCE
-                      </p>
-                      <div className="flex items-start gap-3 my-2">
-                        <Image
-                          src={icons.helpIcon}
-                          alt="transferIcon"
-                          onClick={handleToggle}
-                          className="cursor-pointer"
-                        />
-                        {toggle ? (
-                          loading ? (
-                            <div className="w-full h-full">
-                              <div className="w-[40px] h-[10px] bg-white/10 animate-pulse rounded-lg mb-2"></div>
-                              <div className="w[40px] h-[10px] bg-white/10 animate-pulse rounded-lg "></div>
-                            </div>
-                          ) : (
-                            <div>
-                              <p className="text-secondary-100 text-[24px] font-semibold leading-10 mb-2">
-                                {price}
-                              </p>
-                              <p className="text-secondary-100 text-[12px] leading-[14px]">
-                                {tokenValue} ETH
-                              </p>
-                            </div>
-                          )
-                        ) : loading ? (
-                          <div className="w-full h-full">
-                            <div className="w-[40px] h-[10px] bg-white/10 animate-pulse rounded-lg mb-2"></div>
-                            <div className="w[40px] h-[10px] bg-white/10 animate-pulse rounded-lg "></div>
-                          </div>
-                        ) : (
-                          <div>
-                            <p className="text-secondary-100 text-[24px] font-semibold leading-10 mb-2">
-                              ~ {tokenValue} ETH
-                            </p>
-                            <p className="text-secondary-100 text-[12px] leading-[14px]">
-                              {price}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Image src={icons.ethLogo} alt="transferIcon" />
-                      <p className="text-secondary-100 text-[24px] font-normal leading-9">
-                        ETH
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full mt-5 ">
-                  <div className="relative rounded-lg border border-secondary-100  h-auto  p-4">
-                    <div className="flex items-center justify-center">
-                      <div>
-                        <div className="flex items-center justify-center">
-                          {/* <p className="text-[32px] text-white">$</p> */}
-                          <input
-                            name="usdValue"
-                            style={{ caretColor: "white" }}
-                            inputMode="decimal"
-                            type="text"
-                            className={`dollorInput pl-0 pt-2 pb-1 backdrop-blur-xl text-[32px] border-none text-center bg-transparent text-secondary-100 placeholder-grey  rounded-lg block w-full focus:outline-none focus:ring-transparent`}
-                            placeholder="$0"
-                            value={value}
-                            onChange={(e) => {
-                              handleInputChange(e.target.value);
-                            }}
-                            disabled={loading}
-                            onWheel={() =>
-                              (document.activeElement as HTMLElement).blur()
-                            }
-                          />
-                        </div>
+                <div className="w-full">
+                  <div className="relative mb-4">
+                    <label htmlFor="usdValue" className="label mb-3 block">
+                      Amount
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="usdValue"
+                        name="usdValue"
+                        inputMode="decimal"
+                        type="text"
+                        className={`px-3 py-5 heading3_bold border border-secondary-700 bg-transparent  placeholder-grey rounded-xl block w-full focus:outline-none focus:ring-transparent`}
+                        placeholder="$0"
+                        value={value}
+                        onChange={(e) => {
+                          handleInputChange(e.target.value);
+                        }}
+                        disabled={loading}
+                        onWheel={() =>
+                          (document.activeElement as HTMLElement).blur()
+                        }
+                      />
+                      <div className="absolute top-1/2 -translate-y-1/2 right-3">
                         {Number(inputValue) > 0 && (
-                          <p className="text-secondary text-[12px] leading-[14px] text-center">
-                            ~ {inputValue} ETH
+                          <p className="text-text-500 paragraph_semibold">
+                            ~ {inputValue} ETH{" "}
                           </p>
                         )}
                       </div>
                     </div>
                   </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="rounded-lg border border-secondary-700 px-2 py-[4.5px] cursor-pointer"
+                        role="presentation"
+                        onClick={() => {
+                          handleValueClick("10");
+                        }}
+                      >
+                        <p className="meta">$10</p>
+                      </div>
+                      <div
+                        className="rounded-lg border border-secondary-700 px-2 py-[4.5px] cursor-pointer"
+                        role="presentation"
+                        onClick={() => {
+                          handleValueClick("20");
+                        }}
+                      >
+                        <p className="text-center text-secondary-100">$20</p>
+                      </div>
+                      <div
+                        className="rounded-lg border border-secondary-700 px-2 py-[4.5px] cursor-pointer"
+                        role="presentation"
+                        onClick={() => {
+                          handleValueClick("50");
+                        }}
+                      >
+                        <p className="text-center text-secondary-100">$50</p>
+                      </div>
+                    </div>
+                    <p className="meta">
+                      {" "}
+                      Bal: {tokenValue} ETH |
+                      <span className="meta pl-2">{price}</span>
+                    </p>
+                  </div>
                 </div>
-                <div className="grid grid-cols-3 gap-3 mt-5">
-                  <div
-                    className="rounded-lg border border-gray-500 bg-white/5 p-2 cursor-pointer"
-                    role="presentation"
-                    onClick={() => {
-                      handleValueClick("10");
-                    }}
-                  >
-                    <p className="text-center text-secondary-100">$10</p>
-                  </div>
-                  <div
-                    className="rounded-lg border border-gray-500 bg-white/5 p-2 cursor-pointer"
-                    role="presentation"
-                    onClick={() => {
-                      handleValueClick("20");
-                    }}
-                  >
-                    <p className="text-center text-secondary-100">$20</p>
-                  </div>
-                  <div
-                    className="rounded-lg border border-gray-500 bg-white/5 p-2 cursor-pointer"
-                    role="presentation"
-                    onClick={() => {
-                      handleValueClick("50");
-                    }}
-                  >
-                    <p className="text-center text-secondary-100">$50</p>
-                  </div>
-                </div>
+
                 <div className="mt-5">
                   <input
                     type="text"
