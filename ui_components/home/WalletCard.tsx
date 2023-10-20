@@ -1,12 +1,11 @@
 import Image from "next/image";
 
 import { icons } from "../../utils/images";
-import { useAccount } from "wagmi";
+import { getNounAvatar, trimAddress } from "../../utils";
 import { publicClient } from "../../utils/viem";
 import { useContext, useMemo, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { getUsdPrice } from "../../apiServices";
-import { getCurrencyFormattedNumber, getTokenValueFormatted } from "../../utils";
 
 export default function WalletCard() {
   const {
@@ -18,29 +17,49 @@ export default function WalletCard() {
       //@ts-ignore
       const balance = await publicClient.getBalance({ address });
       getUsdPrice().then(async (res: any) => {
-        const formatBal = (Number(balance) / Math.pow(10, 18)) * res.data.ethereum.usd;
+        const formatBal =
+          (Number(balance) / Math.pow(10, 18)) * res.data.ethereum.usd;
         setBalance(formatBal);
       });
     }
   }, [address]);
 
-  console.log("address", address);
+  const copyToClipBoard = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(address);
+  };
 
   return (
-    <div className="bg-secondary-200 rounded-3xl px-4 py-6">
-      <p className="supportText_medium text-text-500 mb-1.5">Wallet balance</p>
-      <div className="mb-6 flex items-center gap-[14px]">
-        <p className="subtitle_black">${balance}</p>
-        <Image src={icons.eye} alt="show" />
-      </div>
-      <div className="flex items-center gap-10">
+    <div className="bg-secondary-200 rounded-3xl px-3 py-4">
+      <div className="flex items-center gap-3 mb-14">
+        <Image
+          width={48}
+          height={48}
+          className="w-12 rounded-full"
+          src={getNounAvatar(address)}
+          alt="wallet"
+        />
         <div>
-          <p className="supportText_medium text-text-500 mb-1.5">Total Invested</p>
-          <p className="paragraph_semibold text-text-900">$0.5</p>
+          <p className="supportText_medium text-text-500 mb-1">My wallet</p>
+          <div className="flex items-center gap-2">
+            <p className="paragraph_semibold">{trimAddress(address)}</p>
+            <Image
+              className=" cursor-pointer"
+              onClick={copyToClipBoard}
+              src={icons.copyBlack}
+              alt="copy"
+            />
+          </div>
         </div>
-        <div>
-          <p className="supportText_medium text-text-500 mb-1.5">Current value</p>
-          <p className="paragraph_semibold text-text-900">$0.5</p>
+      </div>
+      <div className="flex items-center justify-between">
+        <p className="heading1_black">
+          $5.<span className=" opacity-50">20</span>
+        </p>
+        <div className="flex items-center gap-2 bg-primary-600 p-2 rounded-3xl cursor-pointer">
+          <Image src={icons.avalanche} alt="avalanche" />
+          <p className="meta font-medium text-white ">Avalanche</p>
         </div>
       </div>
     </div>

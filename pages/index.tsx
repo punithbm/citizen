@@ -224,7 +224,7 @@ export default function Home() {
       case ESTEPS.TWO:
         return <ConnectWallet signIn={signIn} handleSteps={handleSteps} loader={loader} />;
       case ESTEPS.THREE:
-        return <HomePage />;
+        return <HomePage walletAddress={walletAddress} />;
       default:
         return <></>;
     }

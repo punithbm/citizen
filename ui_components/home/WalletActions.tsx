@@ -1,19 +1,28 @@
-import Image from "next/image";
-
 import { icons } from "../../utils/images";
+import { IconButton } from "../shared";
 
 export default function WalletActions() {
+  const actions = [
+    { id: 1, name: "Send", icon: icons.sendIcon.src },
+    { id: 2, name: "Receive", icon: icons.receiveIcon.src },
+    { id: 3, name: "Swap", icon: icons.swapIcon.src },
+    { id: 4, name: "Buy", icon: icons.buyIcon.src },
+  ];
   return (
-    <ul className="flex items-center justify-between px-10 relative">
-      <li className="flex items-center gap-2 support_text_semibold text-white">
-        <Image src={icons.depositIcon} alt="deposit" />
-        Deposit
-      </li>
-      <li className="absolute left-[48%] -translate-x-1/2 h-[18px] w-[1px] bg-secondary-500"></li>
-      <li className="flex items-center gap-2 support_text_semibold text-white">
-        <Image src={icons.withdrawIcon} alt="deposit" />
-        Withdraw
-      </li>
+    <ul className="flex items-center justify-between px-5 relative">
+      {actions?.map((item) => (
+        <li key={item.id}>
+          <IconButton
+            type="button"
+            className={`flex flex-col items-center meta_medium outline-0 text-white`}
+            leftIcon={
+              <img src={item.icon} alt={"more icon"} className="w-10 mb-2" />
+            }
+          >
+            {item.name}
+          </IconButton>
+        </li>
+      ))}
     </ul>
   );
 }

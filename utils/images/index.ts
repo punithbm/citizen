@@ -15,6 +15,12 @@ import withdrawIcon from "../../public/assets/images/withdraw_icon.svg";
 import vaultIcon from "../../public/assets/images/vault_icon.svg";
 import chevronBack from "../../public/assets/images/chevron_back.svg";
 import arrowDownCircle from "../../public/assets/images/arrow_down_circle.svg";
+import walletIcon from "../../public/assets/images/wallet_icon.png";
+import avalanche from "../../public/assets/images/avalanche.svg";
+import sendIcon from "../../public/assets/images/send_icon.svg";
+import receiveIcon from "../../public/assets/images/receive_icon.svg";
+import swapIcon from "../../public/assets/images/swap_icon.svg";
+import buyIcon from "../../public/assets/images/buy_icon.svg";
 
 export type TImages =
   | "logo"
@@ -33,6 +39,12 @@ export type TImages =
   | "withdrawIcon"
   | "vaultIcon"
   | "chevronBack"
+  | "walletIcon"
+  | "avalanche"
+  | "sendIcon"
+  | "receiveIcon"
+  | "swapIcon"
+  | "buyIcon"
   | "arrowDownCircle";
 
 export type TNextImage = {
@@ -60,4 +72,10 @@ export const icons: Record<TImages, TNextImage> = {
   vaultIcon,
   chevronBack,
   arrowDownCircle,
+  walletIcon,
+  avalanche,
+  sendIcon,
+  receiveIcon,
+  swapIcon,
+  buyIcon,
 };

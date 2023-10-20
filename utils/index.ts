@@ -1,3 +1,9 @@
+import {
+  getNounData,
+  getNounSeedFromBlockHash,
+  ImageData,
+} from "@nouns/assets";
+import { buildSVG } from "@nouns/sdk";
 import { toBuffer } from "@ethereumjs/util";
 import bs58 from "bs58";
 import crypto from "crypto";
@@ -9,7 +15,11 @@ import { ethers } from "ethers";
 export const ZERO_USD = "$0";
 export const MIN_VAL = 0.000001;
 
-export const toastFlashMessage = (message: string | React.ReactElement, type: string, delay = 3000) => {
+export const toastFlashMessage = (
+  message: string | React.ReactElement,
+  type: string,
+  delay = 3000
+) => {
   const { dispatch } = getStore();
   dispatch({
     type: ACTIONS.CLEAR_TOAST,
@@ -119,7 +129,12 @@ export const getCurrencyFormattedNumber = (
   return _val + currencySuffix;
 };
 
-export const getTokenFormattedNumber = (value: string, decimals: number, roundOff = true, fractions = 0) => {
+export const getTokenFormattedNumber = (
+  value: string,
+  decimals: number,
+  roundOff = true,
+  fractions = 0
+) => {
   const _decimals = decimals || 18;
   const _value = parseFloat(value) || 0;
   const _expoValue = Math.pow(10, _decimals);
@@ -139,7 +154,11 @@ export const getTokenFormattedNumber = (value: string, decimals: number, roundOf
   return Number(_calculated.toFixed(_decimalFixed));
 };
 
-export const getTokenValueFormatted = (val: number, fixedDigits = 6, showMinVal = true) => {
+export const getTokenValueFormatted = (
+  val: number,
+  fixedDigits = 6,
+  showMinVal = true
+) => {
   const minVal = MIN_VAL;
   if (val == 0) {
     return "0";
@@ -174,13 +193,23 @@ export const copyToClipBoard = (val: string) => {
   navigator.clipboard.writeText(`${val}`);
 };
 
-export const encryptAndEncodeHexStrings = (hexString1: string, hexString2: string) => {
+export const encryptAndEncodeHexStrings = (
+  hexString1: string,
+  hexString2: string
+) => {
   let concatenatedString = hexString1 + "0x" + hexString2;
   concatenatedString = Buffer.from(concatenatedString).toString("base64");
   const iv = crypto.randomBytes(16);
 
-  const cipher = crypto.createCipheriv("aes-128-cbc", Buffer.from("8f2e9a6b3d5c1f7e"), iv);
-  const encryptedData = Buffer.concat([cipher.update(concatenatedString), cipher.final()]);
+  const cipher = crypto.createCipheriv(
+    "aes-128-cbc",
+    Buffer.from("8f2e9a6b3d5c1f7e"),
+    iv
+  );
+  const encryptedData = Buffer.concat([
+    cipher.update(concatenatedString),
+    cipher.final(),
+  ]);
 
   const encodedData = bs58.encode(Buffer.from(concatenatedString));
   return encodedData;
@@ -197,3 +226,67 @@ export const decodeAddressHash = (hash: string) => {
   const address = bufferToHex(Buffer.from(buffData));
   return address;
 };
+
+export const getSafePredictedAddress = async (
+  provider: any,
+  nouns?: string
+) => {
+  const ethProvider = new ethers.providers.Web3Provider(provider!);
+  const signer = await ethProvider.getSigner();
+  const ethAdapter = new EthersAdapter({
+    ethers,
+    signerOrProvider: signer || ethProvider,
+  });
+  const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapter });
+  const safeAccountConfig: SafeAccountConfig = {
+    owners: [await signer.getAddress()],
+    threshold: 1,
+  };
+  const safeSdkOwnerPredicted = await safeFactory.predictSafeAddress(
+    safeAccountConfig,
+    nouns
+  );
+  return safeSdkOwnerPredicted;
+};
+
+export const getNounAvatar = (blockHash: string) => {
+  const uniqueNumber = hashString(blockHash);
+  const seed = getNounSeedFromBlockHash(uniqueNumber, padTo32Bytes(blockHash));
+  const { parts, background } = getNounData(seed);
+  const { palette } = ImageData; // Used with `buildSVG``
+  const svgBinary = buildSVG(parts, palette, background);
+  const svgBase64 = btoa(svgBinary);
+  return `data:image/svg+xml;base64,${svgBase64}`;
+};
+
+function padTo32Bytes(hexAddress: string): string {
+  // Remove the '0x' prefix if present
+  let cleanHexAddress = hexAddress.startsWith("0x")
+    ? hexAddress.substring(2)
+    : hexAddress;
+
+  // Check if the address is already 32 bytes (64 hex characters)
+  if (cleanHexAddress.length === 64) {
+    return "0x" + cleanHexAddress;
+  }
+
+  // Pad zeros to make it 32 bytes (64 hex characters)
+  const paddingNeeded = 64 - cleanHexAddress.length;
+  cleanHexAddress = "0".repeat(paddingNeeded) + cleanHexAddress;
+
+  return "0x" + cleanHexAddress;
+}
+
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+  }
+  hash = Math.abs(hash);
+  hash = hash % 100000;
+  if (hash < 10000) {
+    hash += 10000;
+  }
+  return hash;
+}

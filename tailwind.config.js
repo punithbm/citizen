@@ -33,10 +33,13 @@ module.exports = {
         white: "#FFFFFF",
         grey: "#7B7B7B",
         purple: "#C4A8FF",
+        green: "#00AE60",
+        red: " #E11900",
         primary: {
           50: "#161326",
           300: "#E5B89E",
           500: "#FF8585",
+          600: "#585A48",
           700: "#FF5B5B",
         },
         text: {
