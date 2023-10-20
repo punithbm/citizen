@@ -16,6 +16,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import { useAccount } from "wagmi";
+import { AnonAadhaarProvider } from "anon-aadhaar-react";
 
 import {
   oauthClientId,
@@ -299,42 +300,42 @@ export default function Home() {
 
   return (
     <div className="relative">
-      {/* <AnonAadhaarProvider> */}
-      {loader && (
-        <div className="container mx-auto relative">
-          <div className="w-full h-screen absolute left-0 top-0 z-10 flex items-center justify-center">
-            <div className="spinnerLoader" />
+      <AnonAadhaarProvider>
+        {loader && (
+          <div className="container mx-auto relative">
+            <div className="w-full h-screen absolute left-0 top-0 z-10 flex items-center justify-center">
+              <div className="spinnerLoader" />
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <Header signIn={signIn} step={step} signOut={signOut} />
+        <Header signIn={signIn} step={step} signOut={signOut} />
 
-      <ToastContainer
-        toastStyle={{ backgroundColor: "#282B30" }}
-        className={`w-50`}
-        style={{ width: "600px" }}
-        position="bottom-center"
-        autoClose={6000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        theme="dark"
-      />
-      {getUIComponent(step)}
-      <BottomSheet
-        isOpen={openBottomSheet}
-        onClose={() => {
-          setOpenBottomSheet(false);
-        }}
-        walletAddress={walletAddress}
-        signOut={signOut}
-        signIn={signIn}
-        handleSteps={handleSteps}
-      />
-      {pathname !== "/" ? <Footer /> : null}
-      {/* </AnonAadhaarProvider> */}
+        <ToastContainer
+          toastStyle={{ backgroundColor: "#282B30" }}
+          className={`w-50`}
+          style={{ width: "600px" }}
+          position="bottom-center"
+          autoClose={6000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          theme="dark"
+        />
+        {getUIComponent(step)}
+        <BottomSheet
+          isOpen={openBottomSheet}
+          onClose={() => {
+            setOpenBottomSheet(false);
+          }}
+          walletAddress={walletAddress}
+          signOut={signOut}
+          signIn={signIn}
+          handleSteps={handleSteps}
+        />
+        {pathname !== "/" ? <Footer /> : null}
+      </AnonAadhaarProvider>
     </div>
   );
 }

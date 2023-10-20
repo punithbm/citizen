@@ -3,6 +3,7 @@ import WalletCard from "./WalletCard";
 import WalletActions from "./WalletActions";
 import TokenListItem from "./TokenListItem";
 import ActivitiesListItem from "./ActivitiesListItem";
+import KYCStatus from "./KYCStatus";
 
 export {
   WalletActionCard,
@@ -10,4 +11,5 @@ export {
   WalletActions,
   TokenListItem,
   ActivitiesListItem,
+  KYCStatus,
 };

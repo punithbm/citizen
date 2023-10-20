@@ -35,7 +35,7 @@ const nextConfig = {
     } else {
       config.output.publicPath = `./`;
     }
-    config.resolve.fallback = { fs: false };
+    config.resolve.fallback = { fs: false, readline: false };
     config.output.assetModuleFilename = `node_modules/@trustwallet/dist/lib/wallet-core.wasm`;
     config.module.rules.push({
       test: /\.(wasm)$/,
