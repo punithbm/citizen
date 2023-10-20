@@ -5,6 +5,8 @@ import { useAccount } from "wagmi";
 import { publicClient } from "../../utils/viem";
 import { useContext, useMemo, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
+import { getUsdPrice } from "../../apiServices";
+import { getCurrencyFormattedNumber, getTokenValueFormatted } from "../../utils";
 
 export default function WalletCard() {
   const {
@@ -15,7 +17,10 @@ export default function WalletCard() {
     if (address) {
       //@ts-ignore
       const balance = await publicClient.getBalance({ address });
-      setBalance(Number(balance));
+      getUsdPrice().then(async (res: any) => {
+        const formatBal = (Number(balance) / Math.pow(10, 18)) * res.data.ethereum.usd;
+        setBalance(formatBal);
+      });
     }
   }, [address]);
 
