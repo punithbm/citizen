@@ -25,6 +25,7 @@ import { BaseGoerli } from "../utils/chain/baseGoerli";
 import { useWagmi } from "../utils/wagmi/WagmiContext";
 import Login from "../ui_components/login/Login";
 import { usePathname } from "next/navigation";
+import { SendTx } from "../ui_components/home/Send";
 
 export type THandleStep = {
   handleSteps: (step: number) => void;
@@ -224,7 +225,7 @@ export default function Home() {
       case ESTEPS.TWO:
         return <ConnectWallet signIn={signIn} handleSteps={handleSteps} loader={loader} />;
       case ESTEPS.THREE:
-        return <HomePage />;
+        return <SendTx provider={provider} />;
       default:
         return <></>;
     }

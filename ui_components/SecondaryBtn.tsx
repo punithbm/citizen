@@ -14,19 +14,10 @@ interface ISecondaryBtn {
 }
 
 export default function SecondaryBtn(props: ISecondaryBtn) {
-  const {
-    title,
-    onClick,
-    rightImage,
-    leftImage,
-    showShareIcon,
-    className,
-    btnDisable,
-    loading,
-  } = props;
+  const { title, onClick, rightImage, leftImage, showShareIcon, className, btnDisable, loading } = props;
   return (
     <button
-      className={`py-4 text-white support_text_bold rounded-lg flex gap-1 items-center w-full justify-center border border-white max-w-[400px] mx-auto ${className}`}
+      className={`py-4 support_text_bold rounded-lg flex gap-1 items-center w-full justify-center border max-w-[400px] mx-auto ${className}`}
       disabled={btnDisable}
       onClick={onClick}
     >
