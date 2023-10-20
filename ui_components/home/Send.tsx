@@ -10,11 +10,21 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { parseEther } from "viem";
 
-import { getBalance, getRelayTransactionStatus, getSendTransactionStatus, getUsdPrice } from "../../apiServices";
+import {
+  getBalance,
+  getRelayTransactionStatus,
+  getSendTransactionStatus,
+  getUsdPrice,
+} from "../../apiServices";
 import { GlobalContext } from "../../context/GlobalContext";
 import { LOGGED_IN, THandleStep } from "../../pages";
 import * as loaderAnimation from "../../public/lottie/loader.json";
-import { getCurrencyFormattedNumber, getTokenFormattedNumber, getTokenValueFormatted, hexToNumber } from "../../utils";
+import {
+  getCurrencyFormattedNumber,
+  getTokenFormattedNumber,
+  getTokenValueFormatted,
+  hexToNumber,
+} from "../../utils";
 import { BaseGoerli } from "../../utils/chain/baseGoerli";
 import { icons } from "../../utils/images";
 import { Wallet } from "../../utils/wallet";
@@ -71,8 +81,16 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
         setTokenPrice(res.data.ethereum.usd);
         setFromAddress(address);
         const balance = (await getBalance(address)) as any;
-        setTokenValue(getTokenFormattedNumber(hexToNumber(balance.result) as unknown as string, 18));
-        const formatBal = ((hexToNumber(balance.result) / Math.pow(10, 18)) * res.data.ethereum.usd).toFixed(3);
+        setTokenValue(
+          getTokenFormattedNumber(
+            hexToNumber(balance.result) as unknown as string,
+            18
+          )
+        );
+        const formatBal = (
+          (hexToNumber(balance.result) / Math.pow(10, 18)) *
+          res.data.ethereum.usd
+        ).toFixed(3);
         setPrice(getCurrencyFormattedNumber(formatBal));
         setBalanceInUsd(formatBal);
         setLoading(false);
@@ -125,7 +143,6 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
         value: 0,
         chainId: 137,
       });
-      console.log("signedTx", signedTx);
     }
   };
 
@@ -139,7 +156,9 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                 <div className="rounded-lg border border-secondary-100 ">
                   <div className="flex items-center justify-between py-2 px-4">
                     <div>
-                      <p className="text-secondary-100 paragraph">YOUR BALANCE</p>
+                      <p className="text-secondary-100 paragraph">
+                        YOUR BALANCE
+                      </p>
                       <div className="flex items-start gap-3 my-2">
                         <Image
                           src={icons.helpIcon}
@@ -155,8 +174,12 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                             </div>
                           ) : (
                             <div>
-                              <p className="text-secondary-100 text-[24px] font-semibold leading-10 mb-2">{price}</p>
-                              <p className="text-secondary-100 text-[12px] leading-[14px]">{tokenValue} ETH</p>
+                              <p className="text-secondary-100 text-[24px] font-semibold leading-10 mb-2">
+                                {price}
+                              </p>
+                              <p className="text-secondary-100 text-[12px] leading-[14px]">
+                                {tokenValue} ETH
+                              </p>
                             </div>
                           )
                         ) : loading ? (
@@ -169,14 +192,18 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                             <p className="text-secondary-100 text-[24px] font-semibold leading-10 mb-2">
                               ~ {tokenValue} ETH
                             </p>
-                            <p className="text-secondary-100 text-[12px] leading-[14px]">{price}</p>
+                            <p className="text-secondary-100 text-[12px] leading-[14px]">
+                              {price}
+                            </p>
                           </div>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <Image src={icons.ethLogo} alt="transferIcon" />
-                      <p className="text-secondary-100 text-[24px] font-normal leading-9">ETH</p>
+                      <p className="text-secondary-100 text-[24px] font-normal leading-9">
+                        ETH
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -198,11 +225,15 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                               handleInputChange(e.target.value);
                             }}
                             disabled={loading}
-                            onWheel={() => (document.activeElement as HTMLElement).blur()}
+                            onWheel={() =>
+                              (document.activeElement as HTMLElement).blur()
+                            }
                           />
                         </div>
                         {Number(inputValue) > 0 && (
-                          <p className="text-secondary text-[12px] leading-[14px] text-center">~ {inputValue} ETH</p>
+                          <p className="text-secondary text-[12px] leading-[14px] text-center">
+                            ~ {inputValue} ETH
+                          </p>
                         )}
                       </div>
                     </div>
@@ -250,7 +281,11 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                   />
                 </div>
                 <div className="relative mt-10">
-                  <div className={`${!btnDisable && value ? "opacity-100" : "opacity-50"} flex gap-2 justify-center`}>
+                  <div
+                    className={`${
+                      !btnDisable && value ? "opacity-100" : "opacity-50"
+                    } flex gap-2 justify-center`}
+                  >
                     <SecondaryBtn
                       className={`w-[100%] border-secondary-100 mx-0 ${
                         btnDisable || !value ? "cursor-not-allowed" : ""

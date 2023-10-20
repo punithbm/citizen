@@ -27,11 +27,9 @@ import {
 } from "../constants";
 import { ACTIONS, GlobalContext } from "../context/GlobalContext";
 import BottomSheet from "../ui_components/bottom-sheet";
-import ConnectWallet from "../ui_components/connect_wallet/";
 import Footer from "../ui_components/footer";
 import Header from "../ui_components/header";
 import HomePage from "../ui_components/home/HomePage";
-
 import { BaseGoerli } from "../utils/chain/baseGoerli";
 import { useWagmi } from "../utils/wagmi/WagmiContext";
 import Login from "../ui_components/login/Login";
@@ -62,13 +60,11 @@ export default function Home() {
   const [initLoader, setInitLoader] = useState(false);
   const { openConnectModal } = useConnectModal();
 
-  const [openLogin, setSdk] = useState<any>("");
-  const [safeLogin, setSafeLogin] = useState<any>("");
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [step, setStep] = useState<number>(0);
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
   const [connecting, setConnecting] = useState(false);
-  const { getAccount, disconnect } = useWagmi();
+  const { disconnect } = useWagmi();
   const { address, isConnecting } = useAccount();
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
   const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
@@ -77,7 +73,7 @@ export default function Home() {
   useEffect(() => {
     const item = localStorage.getItem("isGoogleLogin");
     if (item) {
-      handleSteps(ESTEPS.THREE);
+      handleSteps(ESTEPS.TWO);
     } else {
       handleSteps(ESTEPS.ONE);
     }
@@ -247,13 +243,7 @@ export default function Home() {
           />
         );
       case ESTEPS.TWO:
-        return (
-          <ConnectWallet
-            signIn={signIn}
-            handleSteps={handleSteps}
-            loader={loader}
-          />
-        );
+        return <HomePage setStep={setStep} />;
       case ESTEPS.THREE:
         return <SendTx provider={provider} />;
       default:
@@ -312,7 +302,12 @@ export default function Home() {
           </div>
         )}
 
-        <Header signIn={signIn} step={step} signOut={signOut} />
+        <Header
+          handleSteps={handleSteps}
+          signIn={signIn}
+          step={step}
+          signOut={signOut}
+        />
 
         <ToastContainer
           toastStyle={{ backgroundColor: "#282B30" }}

@@ -9,7 +9,7 @@ export default function BackBtn(props: any) {
     <Image
       src={icons.backIcon}
       alt="back-icon"
-      className={` cursor-pointer ${className ?? ""}`}
+      className={`cursor-pointer ${className ?? ""}`}
       onClick={onClick}
     />
   );

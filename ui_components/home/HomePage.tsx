@@ -8,12 +8,11 @@ import {
 import { homeTabs } from "../../constants";
 import { GlobalContext } from "../../context/GlobalContext";
 import { getActivities, getTokens } from "../../apiServices";
-import { Button, SlidingTab } from "../shared";
-import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
-import Image from "next/image";
-import { icons } from "../../utils/images";
+import { SlidingTab } from "../shared";
+import { useAnonAadhaar } from "anon-aadhaar-react";
 
 export default function HomePage(props: any) {
+  const { setStep } = props;
   const {
     state: { address },
   } = useContext(GlobalContext);
@@ -44,13 +43,12 @@ export default function HomePage(props: any) {
 
   useEffect(() => {
     setAadharStatus(anonAadhaar.status);
-    console.log(anonAadhaar.status, "anonAadhaar.status");
   }, [anonAadhaar]);
 
   return (
     <div className="pt-[96px] bg-white h-[100dvh] relative">
       <div className="container mx-auto relative h-full">
-        <WalletActionCard />
+        <WalletActionCard setStep={setStep} />
         {aadharStatus === "logged-in" ? (
           <div>
             <div className="mb-4">
