@@ -101,3 +101,41 @@ export const getUsdPrice = (): Promise<any[]> => {
       });
   });
 };
+
+export const getTokens = (address: string) => {
+  const config = {
+    method: "get",
+    url: `https://api.covalenthq.com/v1/matic-mumbai/address/${address}/balances_v2/`,
+    headers: { "Content-Type": "application/json", Authorization: "Bearer cqt_rQyRbJkyrfwgp9VJTwWGpqQ4RY8x" },
+  };
+  return new Promise((resolve) => {
+    axiosInstance(config)
+      .then((res: any) => {
+        if (res.status === 200) {
+          resolve(res.data);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  });
+};
+
+export const getActivities = (address: string) => {
+  const config = {
+    method: "get",
+    url: `https://api.covalenthq.com/v1/matic-mumbai/address/${address}/transactions_v3/page/0/`,
+    headers: { "Content-Type": "application/json", Authorization: "Bearer cqt_rQyRbJkyrfwgp9VJTwWGpqQ4RY8x" },
+  };
+  return new Promise((resolve) => {
+    axiosInstance(config)
+      .then((res: any) => {
+        if (res.status === 200) {
+          resolve(res.data);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  });
+};
