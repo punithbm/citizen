@@ -1,6 +1,9 @@
 .heading1_black {
     @apply font-inter font-black text-xl text-text-900;
 }
+.heading2_extrabold {
+    @apply font-inter font-extrabold text-xxl text-text-900;
+}
 .subtitle {
     @apply font-inter font-medium text-medium leading-2 md:text-medium md:leading-2 text-black;
 }

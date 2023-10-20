@@ -21,11 +21,9 @@ function Login(props: ILoginProps) {
           alt="login"
         />
         <div className="text-center absolute bottom-[200px] left-1/2 -translate-x-1/2 w-[calc(100vw-32px)]">
-          <h1 className="mb-4 text-white font-extrabold text-xl">
-            Grow your future
-          </h1>
+          <h1 className="mb-4 text-white heading2_extrabold">Citizen</h1>
           <p className="text-text-100 paragraph_medium">
-            Invest for your future and get rewarded
+            Where Citizens Control Crypto
           </p>
         </div>
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[calc(100vw-32px)] lg:w-[388px]">
