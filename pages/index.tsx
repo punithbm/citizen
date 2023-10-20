@@ -60,7 +60,6 @@ export default function Home() {
   const { address, isConnecting } = useAccount();
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
   const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
-
   useEffect(() => {
     const item = localStorage.getItem("isGoogleLogin");
     if (item) {

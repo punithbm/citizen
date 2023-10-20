@@ -11,16 +11,13 @@ export default function HomePage(props: any) {
   const handleTabClick = (id: any) => {
     setActiveTab(id);
   };
+
   return (
     <div className="pt-[96px] bg-white h-[100dvh] relative">
       <div className="container mx-auto relative">
         <WalletActionCard />
         <div className="mb-4">
-          <SlidingTab
-            tabData={homeTabs}
-            handleTabClick={handleTabClick}
-            activeTab={activeTab}
-          />
+          <SlidingTab tabData={homeTabs} handleTabClick={handleTabClick} activeTab={activeTab} />
         </div>
         <VaultListItem />
       </div>
