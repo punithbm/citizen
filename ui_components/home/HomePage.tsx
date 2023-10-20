@@ -6,7 +6,7 @@ import { Button } from "../shared";
 import { homeTabs } from "../../constants";
 
 export default function HomePage(props: any) {
-  const [activeTab, setActiveTab] = useState("vaults");
+  const [activeTab, setActiveTab] = useState("tokens");
 
   const handleTabClick = (id: any) => {
     setActiveTab(id);
@@ -24,11 +24,11 @@ export default function HomePage(props: any) {
         </div>
         <VaultListItem />
       </div>
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full py-6 bg-white">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full py-4 bg-white">
         <Button
-          className="!bg-purple !rounded-3xl !text-base w-[90%] mx-auto"
+          className="!bg-purple !rounded-3xl !text-base !w-[calc(100vw-32px)] mx-auto"
           variant={"primary"}
-          label="Create custom vault"
+          label="Create"
         />
       </div>
     </div>

@@ -275,7 +275,7 @@ export default function Home() {
           />
         );
       case ESTEPS.THREE:
-        return <></>;
+        return <HomePage />;
       default:
         return <></>;
     }
@@ -322,7 +322,7 @@ export default function Home() {
   }, [isConnecting]);
 
   return (
-    <>
+    <div>
       {/* {pathname !== "/" ? ( */}
       <Header
         walletAddress={walletAddress}
@@ -361,6 +361,6 @@ export default function Home() {
         handleSteps={handleSteps}
       />
       {pathname !== "/" ? <Footer /> : null}
-    </>
+    </div>
   );
 }

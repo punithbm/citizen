@@ -11,10 +11,6 @@ export const rainbowKitProjectId = "fb3037b60ba3165d90a7f1bb1a727cc5";
 
 export const homeTabs = [
   {
-    id: "vaults",
-    label: "Vaults",
-  },
-  {
     id: "tokens",
     label: "Tokens",
   },
