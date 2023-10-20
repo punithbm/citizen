@@ -13,11 +13,8 @@
   "dependencies": {
     "@ethereumjs/util": "^8.0.0",
     "@headlessui/react": "^1.7.16",
+    "@instadapp/avocado": "^0.4.5",
     "@rainbow-me/rainbowkit": "^1.0.8",
-    "@safe-global/account-abstraction-kit-poc": "^1.2.0",
-    "@safe-global/auth-kit": "^1.2.0",
-    "@safe-global/protocol-kit": "^1.2.0",
-    "@safe-global/relay-kit": "^1.2.0",
     "@trustwallet/wallet-core": "^3.2.10",
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",

@@ -24,15 +24,7 @@ interface IHeader {
 
 const Header = (props: IHeader) => {
   const menuRef = useRef<HTMLDivElement>(null);
-  const {
-    walletAddress,
-    signIn,
-    step,
-    handleSteps,
-    onHamburgerClick,
-    signOut,
-    setWalletAddress,
-  } = props;
+  const { walletAddress, signIn, step, handleSteps, onHamburgerClick, signOut, setWalletAddress } = props;
   const {
     dispatch,
     state: { address, isConnected, loggedInVia },
@@ -120,12 +112,8 @@ const Header = (props: IHeader) => {
                 <>
                   <div className="flex justify-between items-center px-4 py-3 border-b border-secondary-300">
                     <div>
-                      <p className="text-[12px] font-medium text-[#555555]">
-                        ACCOUNT OVERVIEW
-                      </p>
-                      <p className="text-black text-left">
-                        {address ? trimAddress(address) : ""}
-                      </p>
+                      <p className="text-[12px] font-medium text-[#555555]">ACCOUNT OVERVIEW</p>
+                      <p className="text-black text-left">{address ? trimAddress(address) : ""}</p>
                     </div>
                   </div>
                   <div

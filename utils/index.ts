@@ -1,11 +1,6 @@
 import { toBuffer } from "@ethereumjs/util";
 import bs58 from "bs58";
 import crypto from "crypto";
-import {
-  EthersAdapter,
-  SafeAccountConfig,
-  SafeFactory,
-} from "@safe-global/protocol-kit";
 
 import { ACTIONS } from "../context/GlobalContext";
 import { getStore } from "../store/GlobalStore";
@@ -14,11 +9,7 @@ import { ethers } from "ethers";
 export const ZERO_USD = "$0";
 export const MIN_VAL = 0.000001;
 
-export const toastFlashMessage = (
-  message: string | React.ReactElement,
-  type: string,
-  delay = 3000
-) => {
+export const toastFlashMessage = (message: string | React.ReactElement, type: string, delay = 3000) => {
   const { dispatch } = getStore();
   dispatch({
     type: ACTIONS.CLEAR_TOAST,
@@ -128,12 +119,7 @@ export const getCurrencyFormattedNumber = (
   return _val + currencySuffix;
 };
 
-export const getTokenFormattedNumber = (
-  value: string,
-  decimals: number,
-  roundOff = true,
-  fractions = 0
-) => {
+export const getTokenFormattedNumber = (value: string, decimals: number, roundOff = true, fractions = 0) => {
   const _decimals = decimals || 18;
   const _value = parseFloat(value) || 0;
   const _expoValue = Math.pow(10, _decimals);
@@ -153,11 +139,7 @@ export const getTokenFormattedNumber = (
   return Number(_calculated.toFixed(_decimalFixed));
 };
 
-export const getTokenValueFormatted = (
-  val: number,
-  fixedDigits = 6,
-  showMinVal = true
-) => {
+export const getTokenValueFormatted = (val: number, fixedDigits = 6, showMinVal = true) => {
   const minVal = MIN_VAL;
   if (val == 0) {
     return "0";
@@ -192,23 +174,13 @@ export const copyToClipBoard = (val: string) => {
   navigator.clipboard.writeText(`${val}`);
 };
 
-export const encryptAndEncodeHexStrings = (
-  hexString1: string,
-  hexString2: string
-) => {
+export const encryptAndEncodeHexStrings = (hexString1: string, hexString2: string) => {
   let concatenatedString = hexString1 + "0x" + hexString2;
   concatenatedString = Buffer.from(concatenatedString).toString("base64");
   const iv = crypto.randomBytes(16);
 
-  const cipher = crypto.createCipheriv(
-    "aes-128-cbc",
-    Buffer.from("8f2e9a6b3d5c1f7e"),
-    iv
-  );
-  const encryptedData = Buffer.concat([
-    cipher.update(concatenatedString),
-    cipher.final(),
-  ]);
+  const cipher = crypto.createCipheriv("aes-128-cbc", Buffer.from("8f2e9a6b3d5c1f7e"), iv);
+  const encryptedData = Buffer.concat([cipher.update(concatenatedString), cipher.final()]);
 
   const encodedData = bs58.encode(Buffer.from(concatenatedString));
   return encodedData;
@@ -224,26 +196,4 @@ export const decodeAddressHash = (hash: string) => {
   const buffData = bs58.decode(hash);
   const address = bufferToHex(Buffer.from(buffData));
   return address;
-};
-
-export const getSafePredictedAddress = async (
-  provider: any,
-  nouns?: string
-) => {
-  const ethProvider = new ethers.providers.Web3Provider(provider!);
-  const signer = await ethProvider.getSigner();
-  const ethAdapter = new EthersAdapter({
-    ethers,
-    signerOrProvider: signer || ethProvider,
-  });
-  const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapter });
-  const safeAccountConfig: SafeAccountConfig = {
-    owners: [await signer.getAddress()],
-    threshold: 1,
-  };
-  const safeSdkOwnerPredicted = await safeFactory.predictSafeAddress(
-    safeAccountConfig,
-    nouns
-  );
-  return safeSdkOwnerPredicted;
 };

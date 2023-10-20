@@ -1,17 +1,8 @@
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-
+import { createSafe } from "@instadapp/avocado";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import {
-  EthersAdapter,
-  SafeAccountConfig,
-  SafeFactory,
-} from "@safe-global/protocol-kit";
-import {
-  CHAIN_NAMESPACES,
-  SafeEventEmitterProvider,
-  WALLET_ADAPTERS,
-} from "@web3auth/base";
+import { CHAIN_NAMESPACES, SafeEventEmitterProvider, WALLET_ADAPTERS } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
@@ -22,13 +13,7 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import { useAccount } from "wagmi";
 
-import {
-  oauthClientId,
-  productName,
-  web3AuthClientId,
-  web3AuthLoginType,
-  web3AuthVerifier,
-} from "../constants";
+import { oauthClientId, productName, web3AuthClientId, web3AuthLoginType, web3AuthVerifier } from "../constants";
 import { ACTIONS, GlobalContext } from "../context/GlobalContext";
 import BottomSheet from "../ui_components/bottom-sheet";
 import ConnectWallet from "../ui_components/connect_wallet/";
@@ -38,7 +23,6 @@ import HomePage from "../ui_components/home/HomePage";
 
 import { BaseGoerli } from "../utils/chain/baseGoerli";
 import { useWagmi } from "../utils/wagmi/WagmiContext";
-import { getSafePredictedAddress } from "../utils";
 import Login from "../ui_components/login/Login";
 import { usePathname } from "next/navigation";
 
@@ -75,9 +59,7 @@ export default function Home() {
   const { getAccount, disconnect } = useWagmi();
   const { address, isConnecting } = useAccount();
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
-  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
-    null
-  );
+  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
 
   useEffect(() => {
     const item = localStorage.getItem("isGoogleLogin");
@@ -163,12 +145,10 @@ export default function Home() {
       if (web3auth.connected) {
         return;
       }
-      const web3authProvider = await web3auth.connectTo(
-        WALLET_ADAPTERS.OPENLOGIN,
-        {
-          loginProvider: "google",
-        }
-      );
+      const web3authProvider = await web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+        loginProvider: "google",
+      });
+
       setProvider(web3authProvider);
       const acc = (await getAccounts()) as any;
       localStorage.setItem("isConnected", "true");
@@ -195,30 +175,14 @@ export default function Home() {
       return;
     }
     try {
-      const contractAddress = await getSafePredictedAddress(provider);
-      return await contractAddress;
+      const ethProvider = new ethers.providers.Web3Provider(provider);
+      const safe = createSafe(ethProvider.getSigner());
+      const contractAddress = await safe.getSafeAddress();
+      return contractAddress;
     } catch (error) {
       setLoader(false);
       return error;
     }
-  };
-
-  const deploySafeContract = async () => {
-    const ethProvider = new ethers.providers.Web3Provider(provider!);
-    const signer = await ethProvider.getSigner();
-    const ethAdapter = new EthersAdapter({
-      ethers,
-      signerOrProvider: signer || ethProvider,
-    });
-    const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapter });
-    const safeAccountConfig: SafeAccountConfig = {
-      owners: [await signer.getAddress()],
-      threshold: 1,
-    };
-    const safeSdkOwnerPredicted = await safeFactory.predictSafeAddress(
-      safeAccountConfig
-    );
-    return safeSdkOwnerPredicted;
   };
 
   const signOut = async () => {
@@ -257,21 +221,9 @@ export default function Home() {
   const getUIComponent = (step: number) => {
     switch (step) {
       case ESTEPS.ONE:
-        return (
-          <Login
-            handleSetupChest={handleSetupChest}
-            loader={loader}
-            signIn={signIn}
-          />
-        );
+        return <Login handleSetupChest={handleSetupChest} loader={loader} signIn={signIn} />;
       case ESTEPS.TWO:
-        return (
-          <ConnectWallet
-            signIn={signIn}
-            handleSteps={handleSteps}
-            loader={loader}
-          />
-        );
+        return <ConnectWallet signIn={signIn} handleSteps={handleSteps} loader={loader} />;
       case ESTEPS.THREE:
         return <HomePage />;
       default:
