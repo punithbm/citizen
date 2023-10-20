@@ -36,7 +36,7 @@ const Header = (props: IHeader) => {
             <button
               type="button"
               onClick={signOut}
-              className="h-[40px] rounded-2xl bg-secondary-600 flex items-center px-3 py-2 justify-center gap-2"
+              className="h-[40px] rounded-3xl bg-secondary-600 flex items-center px-3 py-2 justify-center gap-2"
             >
               <Image src={icons.logOut} alt="logout" className="w-6 " />
               {/* <svg
@@ -61,7 +61,7 @@ const Header = (props: IHeader) => {
             <button
               type="button"
               onClick={signIn}
-              className="h-[40px] rounded-2xl bg-secondary-600 flex items-center px-3 py-2 justify-center gap-2"
+              className="h-[40px] rounded-3xl bg-secondary-600 flex items-center px-3 py-2 justify-center gap-2"
             >
               <Image src={icons.googleIcon} alt="login" className="w-6 " />
               <p className="supportText_medium text-white">Login</p>

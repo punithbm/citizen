@@ -329,11 +329,9 @@ export default function Home() {
           onClose={() => {
             setOpenBottomSheet(false);
           }}
-          walletAddress={walletAddress}
-          signOut={signOut}
-          signIn={signIn}
-          handleSteps={handleSteps}
-        />
+        >
+          Test
+        </BottomSheet>
         {pathname !== "/" ? <Footer /> : null}
       </AnonAadhaarProvider>
     </div>
