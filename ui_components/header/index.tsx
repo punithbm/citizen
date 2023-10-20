@@ -33,7 +33,7 @@ const Header = (props: IHeader) => {
         <>
           <BackBtn
             onClick={() => {
-              step === 3 ? handleSteps?.(2) : router.back();
+              step === 3 ? handleSteps?.(step - 1) : router.back();
             }}
           />
         </>
