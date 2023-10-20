@@ -8,7 +8,7 @@ export const web3AuthClientId =
   "BFWg2RH35EKxZJtntj1l-G2XU8AY0l-yFgFIs9iDbgKAW45ZxE9_qfj6COAWwI-RhOs2pN6OHwgZHgtoHjOlMFM";
 export const productName = "Safe Vault";
 export const rainbowKitProjectId = "fb3037b60ba3165d90a7f1bb1a727cc5";
-
+export const DEFAULT_EVM_CONTRACT_DECIMALS = 18;
 export const homeTabs = [
   {
     id: "tokens",

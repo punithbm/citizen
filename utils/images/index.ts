@@ -21,6 +21,7 @@ import sendIcon from "../../public/assets/images/send_icon.svg";
 import receiveIcon from "../../public/assets/images/receive_icon.svg";
 import swapIcon from "../../public/assets/images/swap_icon.svg";
 import buyIcon from "../../public/assets/images/buy_icon.svg";
+import logOut from "../../public/assets/images/log_out.svg";
 
 export type TImages =
   | "logo"
@@ -45,6 +46,7 @@ export type TImages =
   | "receiveIcon"
   | "swapIcon"
   | "buyIcon"
+  | "logOut"
   | "arrowDownCircle";
 
 export type TNextImage = {
@@ -78,4 +80,5 @@ export const icons: Record<TImages, TNextImage> = {
   receiveIcon,
   swapIcon,
   buyIcon,
+  logOut,
 };

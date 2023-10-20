@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { TokenListItem, WalletActionCard } from ".";
-import SlidingTab from "../shared/SlidingTab";
+import { ActivitiesListItem, TokenListItem, WalletActionCard } from ".";
+
 import { homeTabs } from "../../constants";
 import { GlobalContext } from "../../context/GlobalContext";
 import { getActivities, getTokens } from "../../apiServices";
+import { SlidingTab } from "../shared";
 
 export default function HomePage(props: any) {
   const {
@@ -11,6 +12,8 @@ export default function HomePage(props: any) {
   } = useContext(GlobalContext);
 
   const [activeTab, setActiveTab] = useState("tokens");
+  const [tokensList, setTokensList] = useState([]);
+  const [activitiesList, setActivitiesList] = useState([]);
 
   const handleTabClick = (id: any) => {
     setActiveTab(id);
@@ -22,7 +25,8 @@ export default function HomePage(props: any) {
       const resActivities: any = await getActivities(address);
       const tokens = resTokens?.data?.items;
       const activities = resActivities?.data?.items;
-      debugger;
+      setTokensList(tokens);
+      setActivitiesList(activities);
     }
     if (address) {
       fetchTokens();
@@ -41,9 +45,21 @@ export default function HomePage(props: any) {
           />
         </div>
         <div className="overflow-y-auto h-[calc(100vh-494px)] hide-scrollbar flex flex-col gap-3 pb-5">
-          {[...Array(10).keys()].map((key) => {
-            return <TokenListItem key={key} />;
-          })}
+          {activeTab === "tokens" ? (
+            <>
+              {tokensList?.length > 0 &&
+                tokensList.map((item, key) => {
+                  return <TokenListItem key={key} token={item} />;
+                })}
+            </>
+          ) : (
+            <>
+              {activitiesList?.length > 0 &&
+                activitiesList.map((item, key) => {
+                  return <ActivitiesListItem key={key} activity={item} />;
+                })}
+            </>
+          )}
         </div>
       </div>
     </div>

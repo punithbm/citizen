@@ -2,7 +2,11 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import { createSafe } from "@instadapp/avocado";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { CHAIN_NAMESPACES, SafeEventEmitterProvider, WALLET_ADAPTERS } from "@web3auth/base";
+import {
+  CHAIN_NAMESPACES,
+  SafeEventEmitterProvider,
+  WALLET_ADAPTERS,
+} from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
@@ -13,7 +17,13 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import { useAccount } from "wagmi";
 
-import { oauthClientId, productName, web3AuthClientId, web3AuthLoginType, web3AuthVerifier } from "../constants";
+import {
+  oauthClientId,
+  productName,
+  web3AuthClientId,
+  web3AuthLoginType,
+  web3AuthVerifier,
+} from "../constants";
 import { ACTIONS, GlobalContext } from "../context/GlobalContext";
 import BottomSheet from "../ui_components/bottom-sheet";
 import ConnectWallet from "../ui_components/connect_wallet/";
@@ -59,7 +69,9 @@ export default function Home() {
   const { getAccount, disconnect } = useWagmi();
   const { address, isConnecting } = useAccount();
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
-  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
+  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
+    null
+  );
   useEffect(() => {
     const item = localStorage.getItem("isGoogleLogin");
     if (item) {
@@ -144,9 +156,12 @@ export default function Home() {
       if (web3auth.connected) {
         return;
       }
-      const web3authProvider = await web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
-        loginProvider: "google",
-      });
+      const web3authProvider = await web3auth.connectTo(
+        WALLET_ADAPTERS.OPENLOGIN,
+        {
+          loginProvider: "google",
+        }
+      );
 
       setProvider(web3authProvider);
       const acc = (await getAccounts()) as any;
@@ -220,9 +235,21 @@ export default function Home() {
   const getUIComponent = (step: number) => {
     switch (step) {
       case ESTEPS.ONE:
-        return <Login handleSetupChest={handleSetupChest} loader={loader} signIn={signIn} />;
+        return (
+          <Login
+            handleSetupChest={handleSetupChest}
+            loader={loader}
+            signIn={signIn}
+          />
+        );
       case ESTEPS.TWO:
-        return <ConnectWallet signIn={signIn} handleSteps={handleSteps} loader={loader} />;
+        return (
+          <ConnectWallet
+            signIn={signIn}
+            handleSteps={handleSteps}
+            loader={loader}
+          />
+        );
       case ESTEPS.THREE:
         return <HomePage walletAddress={walletAddress} />;
       default:
@@ -272,6 +299,7 @@ export default function Home() {
 
   return (
     <div className="relative">
+      {/* <AnonAadhaarProvider> */}
       {loader && (
         <div className="container mx-auto relative">
           <div className="w-full h-screen absolute left-0 top-0 z-10 flex items-center justify-center">
@@ -279,19 +307,8 @@ export default function Home() {
           </div>
         </div>
       )}
-      {isConnected ? (
-        <Header
-          walletAddress={walletAddress}
-          signIn={signIn}
-          step={step}
-          handleSteps={handleSteps}
-          onHamburgerClick={onHamburgerClick}
-          signOut={signOut}
-          setWalletAddress={setWalletAddress}
-          loader={loader}
-          initLoader={initLoader}
-        />
-      ) : null}
+
+      <Header signIn={signIn} step={step} signOut={signOut} />
 
       <ToastContainer
         toastStyle={{ backgroundColor: "#282B30" }}
@@ -317,6 +334,7 @@ export default function Home() {
         handleSteps={handleSteps}
       />
       {pathname !== "/" ? <Footer /> : null}
+      {/* </AnonAadhaarProvider> */}
     </div>
   );
 }

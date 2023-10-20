@@ -16,7 +16,7 @@ function Login(props: ILoginProps) {
     <div className="container mx-auto relative overflow-clip">
       <div className="h-[100vh] w-full bg-primary-50 ">
         <Image
-          className="absolute left-0 top-20 w-full"
+          className="absolute left-0 top-40 w-full"
           src={icons.loginBg}
           alt="login"
         />

@@ -10,10 +10,28 @@ import crypto from "crypto";
 
 import { ACTIONS } from "../context/GlobalContext";
 import { getStore } from "../store/GlobalStore";
-import { ethers } from "ethers";
 
 export const ZERO_USD = "$0";
 export const MIN_VAL = 0.000001;
+
+export enum TXN_TYPE {
+  Send = "send",
+  Receive = "receive",
+  Smart_Contract = "contract_execution",
+  Swap = "swap",
+  AddLiquidity = "add_liquidity",
+  RemoveLiquidity = "remove_liquidity",
+  Lend = "lend",
+  Stake = "stake",
+  UnStake = "unStake",
+  Mint = "Mint",
+  Approved = "approve",
+  Withdraw = "Withdraw",
+  Deposit = "Deposit",
+  Token_Transferred = "Token Transferred",
+  Multicall = "multicall",
+  SwapExactTokensForTokens = "swapExactTokensForTokens",
+}
 
 export const toastFlashMessage = (
   message: string | React.ReactElement,
@@ -227,28 +245,6 @@ export const decodeAddressHash = (hash: string) => {
   return address;
 };
 
-export const getSafePredictedAddress = async (
-  provider: any,
-  nouns?: string
-) => {
-  const ethProvider = new ethers.providers.Web3Provider(provider!);
-  const signer = await ethProvider.getSigner();
-  const ethAdapter = new EthersAdapter({
-    ethers,
-    signerOrProvider: signer || ethProvider,
-  });
-  const safeFactory = await SafeFactory.create({ ethAdapter: ethAdapter });
-  const safeAccountConfig: SafeAccountConfig = {
-    owners: [await signer.getAddress()],
-    threshold: 1,
-  };
-  const safeSdkOwnerPredicted = await safeFactory.predictSafeAddress(
-    safeAccountConfig,
-    nouns
-  );
-  return safeSdkOwnerPredicted;
-};
-
 export const getNounAvatar = (blockHash: string) => {
   const uniqueNumber = hashString(blockHash);
   const seed = getNounSeedFromBlockHash(uniqueNumber, padTo32Bytes(blockHash));
@@ -290,3 +286,53 @@ function hashString(str: string): number {
   }
   return hash;
 }
+
+export const getPercentageFormatter = (val: number) => {
+  if (val < 0) {
+    val = Math.abs(val);
+  }
+  const expo = Math.pow(10, 2);
+  val = Math.floor(val * expo) / expo;
+  const _val = Number(val.toFixed(2));
+  return _val + "%";
+};
+
+export const isPositiveValue = (val: number) => {
+  return val?.toString().includes("-") ? false : true;
+};
+
+export const getTransactionTypeName = (type: string) => {
+  let t = type?.toLowerCase();
+  switch (t) {
+    case "contract_execution":
+      return "contract_execution";
+    case "send":
+      return "send";
+    case "receive":
+      return "receive";
+    case "approve":
+      return "approve";
+    case "remove_liquidity":
+      return "remove_liquidity";
+    case "add_liquidity":
+      return "add_liquidity";
+    case "swap":
+      return "swap";
+    case "swapExactTokensForTokens":
+      return "swap";
+    case "multicall":
+      return "multicall";
+    default:
+      return type;
+  }
+};
+
+export const getQuoteFromQuoteRate = (
+  value: number,
+  decimals: number,
+  quoteRate: number
+) => {
+  return getCurrencyFormattedNumber(
+    (value * quoteRate) / Math.pow(10, decimals)
+  );
+};
