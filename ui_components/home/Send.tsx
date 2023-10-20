@@ -33,6 +33,7 @@ import SecondaryBtn from "../SecondaryBtn";
 import { useWagmi } from "../../utils/wagmi/WagmiContext";
 import ReactTyped from "react-typed";
 import { createSafe } from "@instadapp/avocado";
+import { Button } from "../shared";
 
 export interface ILoadChestComponent {
   provider?: any;
@@ -148,7 +149,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
 
   return (
     <div className="pt-[120px] bg-white h-[100dvh] relative">
-      <div className="container mx-auto relative">
+      <div className="container mx-auto relative h-full">
         {!transactionLoading ? (
           <div>
             {!showActivity ? (
@@ -164,7 +165,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                         name="usdValue"
                         inputMode="decimal"
                         type="text"
-                        className={`px-3 py-5 heading3_bold border border-secondary-700 bg-transparent  placeholder-grey rounded-xl block w-full focus:outline-none focus:ring-transparent`}
+                        className={`p-3 heading3_bold border border-secondary-700 bg-transparent  placeholder-grey rounded-xl block w-full focus:outline-none focus:ring-transparent`}
                         placeholder="$0"
                         value={value}
                         onChange={(e) => {
@@ -184,10 +185,10 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-3">
                       <div
-                        className="rounded-lg border border-secondary-700 px-2 py-[4.5px] cursor-pointer"
+                        className="border border-secondary-700 px-2 py-[4.5px] rounded-3xl cursor-pointer"
                         role="presentation"
                         onClick={() => {
                           handleValueClick("10");
@@ -196,22 +197,22 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                         <p className="meta">$10</p>
                       </div>
                       <div
-                        className="rounded-lg border border-secondary-700 px-2 py-[4.5px] cursor-pointer"
+                        className="border border-secondary-700 px-2 py-[4.5px] rounded-3xl cursor-pointer"
                         role="presentation"
                         onClick={() => {
                           handleValueClick("20");
                         }}
                       >
-                        <p className="text-center text-secondary-100">$20</p>
+                        <p className="meta">$20</p>
                       </div>
                       <div
-                        className="rounded-lg border border-secondary-700 px-2 py-[4.5px] cursor-pointer"
+                        className="border border-secondary-700 px-2 py-[4.5px] rounded-3xl cursor-pointer"
                         role="presentation"
                         onClick={() => {
                           handleValueClick("50");
                         }}
                       >
-                        <p className="text-center text-secondary-100">$50</p>
+                        <p className="meta">$50</p>
                       </div>
                     </div>
                     <p className="meta">
@@ -222,32 +223,20 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                   </div>
                 </div>
 
-                <div className="mt-5">
+                <div className="">
+                  <label htmlFor="usdValue" className="label mb-3 block">
+                    Address
+                  </label>
                   <input
                     type="text"
                     id="first_name"
                     className="border border-secondary-100 text-gray-900 text-sm rounded-lg block w-full p-3"
-                    placeholder="Enter to wallet address"
+                    placeholder="Enter recipient address"
                     value={toAddress}
                     onChange={(e) => {
                       setToAddress(e.target.value);
                     }}
                   />
-                </div>
-                <div className="relative mt-10">
-                  <div
-                    className={`${
-                      !btnDisable && value ? "opacity-100" : "opacity-50"
-                    } flex gap-2 justify-center`}
-                  >
-                    <SecondaryBtn
-                      className={`w-[100%] border-secondary-100 mx-0 ${
-                        btnDisable || !value ? "cursor-not-allowed" : ""
-                      }`}
-                      title={"Send"}
-                      onClick={createWallet}
-                    />
-                  </div>
                 </div>
               </>
             ) : null}
@@ -263,6 +252,17 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
             <Lottie animationData={loaderAnimation} />
           </div>
         )}
+
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full py-4">
+          <Button
+            className={`!bg-purple !rounded-3xl !text-base !w-[388px] mx-auto ${
+              btnDisable || !value ? "cursor-not-allowed" : ""
+            } ${!btnDisable && value ? "opacity-100" : "opacity-50"}`}
+            variant={"primary"}
+            label="Continue"
+            onClick={createWallet}
+          />
+        </div>
       </div>
     </div>
   );

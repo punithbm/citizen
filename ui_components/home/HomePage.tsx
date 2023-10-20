@@ -48,7 +48,7 @@ export default function HomePage(props: any) {
   return (
     <div className="pt-[96px] bg-white h-[100dvh] relative">
       <div className="container mx-auto relative h-full">
-        <WalletActionCard setStep={setStep} />
+        <WalletActionCard setStep={setStep} aadharStatus={aadharStatus} />
         {aadharStatus === "logged-in" ? (
           <div>
             <div className="mb-4">

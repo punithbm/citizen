@@ -177,7 +177,7 @@ export default function Home() {
       });
       setWalletAddress(acc);
       setLoader(false);
-      handleSteps(ESTEPS.THREE);
+      handleSteps(ESTEPS.TWO);
     } catch (e) {
       setLoader(false);
       console.log(e, "e");
@@ -231,7 +231,7 @@ export default function Home() {
   const handleSteps = (step: number) => {
     setStep(step);
   };
-
+  console.log(step, "step");
   const getUIComponent = (step: number) => {
     switch (step) {
       case ESTEPS.ONE:
