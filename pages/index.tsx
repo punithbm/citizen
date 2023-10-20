@@ -81,11 +81,6 @@ export default function Home() {
 
   useEffect(() => {
     const item = localStorage.getItem("isGoogleLogin");
-    console.log(
-      localStorage.getItem("isGoogleLogin ") &&
-        localStorage.getItem("isGoogleLogin ") === "true",
-      "storage"
-    );
     if (item) {
       handleSteps(ESTEPS.THREE);
     } else {
@@ -268,7 +263,6 @@ export default function Home() {
             loader={loader}
             signIn={signIn}
           />
-          // <HomePage  />
         );
       case ESTEPS.TWO:
         return (
@@ -326,7 +320,14 @@ export default function Home() {
   }, [isConnecting]);
 
   return (
-    <div>
+    <div className="relative">
+      {loader && (
+        <div className="container mx-auto relative">
+          <div className="w-full h-screen absolute left-0 top-0 z-10 flex items-center justify-center">
+            <div className="spinnerLoader" />
+          </div>
+        </div>
+      )}
       {isConnected ? (
         <Header
           walletAddress={walletAddress}
