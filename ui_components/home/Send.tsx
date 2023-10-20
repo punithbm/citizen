@@ -111,12 +111,21 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
       const bgVal = BigNumber.from(parseEther(inputValue));
       const ethProvider = new ethers.providers.Web3Provider(provider);
       const safe = createSafe(ethProvider.getSigner());
-      const res = await safe.sendTransaction({
+      const owner = await safe.getOwnerAddress();
+
+      console.log("ethProvider", ethProvider);
+      console.log("owner", owner);
+      const safeAddr = await safe.getSafeAddress();
+      console.log("safeAddr", safeAddr);
+      console.log("safe", safe);
+      const signer = safe.getSigner();
+      console.log("signer", signer);
+      const signedTx = await signer.sendTransaction({
         to: toAddress,
-        value: bgVal,
-        chainId: Number(BaseGoerli.chainId),
+        value: 0,
+        chainId: 137,
       });
-      console.log("Res", res);
+      console.log("signedTx", signedTx);
     }
   };
 

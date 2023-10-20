@@ -84,13 +84,14 @@ export default function Home() {
     async function initializeOpenLogin() {
       item && setLoader(true);
       setInitLoader(true);
+
       const chainConfig = {
         chainNamespace: CHAIN_NAMESPACES.EIP155,
-        chainId: BaseGoerli.chainIdHex,
-        rpcTarget: BaseGoerli.info.rpc,
-        displayName: BaseGoerli.name,
-        blockExplorer: BaseGoerli.explorer.url,
-        ticker: BaseGoerli.symbol,
+        chainId: "0x27a",
+        rpcTarget: "https://rpc.avocado.instadapp.io",
+        displayName: "Avocado",
+        blockExplorer: "https://rpc.avocado.instadapp.io",
+        ticker: "USDC",
         tickerName: "Ethereum",
       };
       const web3auth = new Web3AuthNoModal({
@@ -122,6 +123,7 @@ export default function Home() {
       setWeb3auth(web3auth);
       await web3auth.init();
       setProvider(web3auth.provider);
+
       setInitLoader(false);
     }
     initializeOpenLogin();
