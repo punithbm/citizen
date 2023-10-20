@@ -75,3 +75,8 @@ body {
   -webkit-animation: 1.1s spin linear infinite;
   animation: 1.1s spin linear infinite;
 }
+
+.container {
+  width: 420px;
+  padding: 0;
+}

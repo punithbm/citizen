@@ -27,7 +27,7 @@ const Button: FC<IButtonProps> = ({
   return (
     <button
       type={type}
-      className={`relative flex items-center justify-center p-4 gap-2 rounded-2xl transition-all duration-100 ease-in-out w-full ${
+      className={`relative flex items-center justify-center p-4 gap-2 rounded-2xl transition-all duration-100 ease-in-out ${
         variant === "primary"
           ? "bg-white text-secondary-100 font-bold text-sm"
           : ""

@@ -59,7 +59,7 @@ export enum LOGGED_IN {
 export default function Home() {
   const {
     dispatch,
-    state: { loggedInVia },
+    state: { isConnected },
   } = useContext(GlobalContext);
   const pathname = usePathname();
   const [loader, setLoader] = useState(false);
@@ -73,7 +73,7 @@ export default function Home() {
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
   const [connecting, setConnecting] = useState(false);
   const { getAccount, disconnect } = useWagmi();
-  const { address, isConnecting, isConnected } = useAccount();
+  const { address, isConnecting } = useAccount();
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
   const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
     null
@@ -302,7 +302,7 @@ export default function Home() {
       toast.error(err.message);
     }
   };
-
+  console.log(isConnected, "isConnected");
   useEffect(() => {
     if (address && !isConnecting && connecting) {
       localStorage.setItem("isConnected", "true");
@@ -320,22 +320,22 @@ export default function Home() {
       handleSteps(ESTEPS.THREE);
     }
   }, [isConnecting]);
-
+  console.log(walletAddress, "walletAddress");
   return (
     <div>
-      {/* {pathname !== "/" ? ( */}
-      <Header
-        walletAddress={walletAddress}
-        signIn={signIn}
-        step={step}
-        handleSteps={handleSteps}
-        onHamburgerClick={onHamburgerClick}
-        signOut={signOut}
-        setWalletAddress={setWalletAddress}
-        loader={loader}
-        initLoader={initLoader}
-      />
-      {/* ) : null} */}
+      {isConnected ? (
+        <Header
+          walletAddress={walletAddress}
+          signIn={signIn}
+          step={step}
+          handleSteps={handleSteps}
+          onHamburgerClick={onHamburgerClick}
+          signOut={signOut}
+          setWalletAddress={setWalletAddress}
+          loader={loader}
+          initLoader={initLoader}
+        />
+      ) : null}
 
       <ToastContainer
         toastStyle={{ backgroundColor: "#282B30" }}

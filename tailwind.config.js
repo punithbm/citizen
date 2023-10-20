@@ -97,18 +97,7 @@ module.exports = {
       },
     },
     boxShadow: {
-      sm: "0px 2px 8px rgba(0, 0, 0, 0.06)",
-      "2xl": "0px 2px 8px rgba(24, 26, 29, 0.05)",
-      "3xl": "0px 24px 24px rgba(0, 0, 0, 0.17);",
-      "4xl": "0px 3.18056px 19.0833px rgba(0, 0, 0, 0.16);",
-      "5xl": "4px 0px 15px rgba(24, 26, 29, 0.05)",
-      "6xl": "0px 4px 25px rgba(24, 26, 29, 0.05)",
-      "7xl": "0px 12px 24px rgba(24, 26, 29, 0.16)",
-      "8xl": "8px 0px 10px rgba(24, 26, 29, 0.05)",
-      topLeft: "-12px 0px 16px rgba(24, 26, 29, 0.05)",
-      sidebar: "-3.97112px 0px 14.8917px rgba(24, 26, 29, 0.05);",
-      rewardShadow1: "-37px 2px 26px #222223;",
-      shareList: "0px 2px 8px rgba(24, 26, 29, 0.1)",
+      sm: "0px 7px 29px 0px rgba(100, 100, 111, 0.2)",
     },
 
     container: {

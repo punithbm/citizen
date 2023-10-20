@@ -13,7 +13,7 @@ export default function HomePage(props: any) {
   };
   return (
     <div className="pt-[96px] bg-white h-[100dvh] relative">
-      <div className="container mx-auto">
+      <div className="container mx-auto relative">
         <WalletActionCard />
         <div className="mb-4">
           <SlidingTab
@@ -26,7 +26,7 @@ export default function HomePage(props: any) {
       </div>
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full py-4 bg-white">
         <Button
-          className="!bg-purple !rounded-3xl !text-base !w-[calc(100vw-32px)] mx-auto"
+          className="!bg-purple !rounded-3xl !text-base !w-[388px] mx-auto"
           variant={"primary"}
           label="Create"
         />
