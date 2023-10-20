@@ -5,6 +5,7 @@ import TokenListItem from "./TokenListItem";
 import ActivitiesListItem from "./ActivitiesListItem";
 import KYCStatus from "./KYCStatus";
 import ReceiveQR from "./ReceiveQR";
+import TaxAlertBottomSheet from "./TaxAlertBottomSheet";
 
 export {
   WalletActionCard,
@@ -14,4 +15,5 @@ export {
   ActivitiesListItem,
   KYCStatus,
   ReceiveQR,
+  TaxAlertBottomSheet,
 };

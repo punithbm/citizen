@@ -34,6 +34,8 @@ import { useWagmi } from "../../utils/wagmi/WagmiContext";
 import ReactTyped from "react-typed";
 import { createSafe } from "@instadapp/avocado";
 import { Button } from "../shared";
+import BottomSheet from "../bottom-sheet";
+import { TaxAlertBottomSheet } from ".";
 
 export interface ILoadChestComponent {
   provider?: any;
@@ -62,7 +64,14 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
   const [showActivity, setShowActivity] = useState(false);
   const [chestLoadingText, setChestLoadingText] = useState("");
   const [toAddress, setToAddress] = useState("");
+  const [openBottomSheet, setOpenBottomSheet] = useState(false);
 
+  const handleOpenBottomSheet = () => {
+    setOpenBottomSheet(true);
+  };
+  const handleCloseBottomSheet = () => {
+    setOpenBottomSheet(false);
+  };
   const handleToggle = () => {
     setToggle(!toggle);
   };
@@ -165,7 +174,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                         name="usdValue"
                         inputMode="decimal"
                         type="text"
-                        className={`p-3 heading3_bold border border-secondary-700 bg-transparent  placeholder-grey rounded-xl block w-full focus:outline-none focus:ring-transparent`}
+                        className={`p-3 heading3_bold border border-secondary-700 bg-transparent placeholder-grey rounded-xl block w-full focus:outline-none focus:ring-transparent`}
                         placeholder="$0"
                         value={value}
                         onChange={(e) => {
@@ -230,12 +239,13 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                   <input
                     type="text"
                     id="first_name"
-                    className="border border-secondary-100 text-gray-900 text-sm rounded-lg block w-full p-3"
+                    className=" border border-secondary-700 text-gray-900 text-sm rounded-xl placeholder-grey block w-full p-3 focus:outline-none focus:ring-transparent"
                     placeholder="Enter recipient address"
                     value={toAddress}
                     onChange={(e) => {
                       setToAddress(e.target.value);
                     }}
+                    // onClick={handleOpenBottomSheet}
                   />
                 </div>
               </>
@@ -264,6 +274,14 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
           />
         </div>
       </div>
+      <BottomSheet
+        isOpen={openBottomSheet}
+        onClose={() => {
+          setOpenBottomSheet(false);
+        }}
+      >
+        <TaxAlertBottomSheet handleCloseBottomSheet={handleCloseBottomSheet} />
+      </BottomSheet>
     </div>
   );
 };

@@ -31,6 +31,10 @@ const Button: FC<IButtonProps> = ({
         variant === "primary"
           ? "bg-white text-secondary-100 font-bold text-sm"
           : ""
+      } ${
+        variant === "ghost"
+          ? "bg-transparent text-text-900 font-semibold text-base border border-purple"
+          : ""
       } ${className ? className : ""}`}
       disabled={disabled}
       onClick={onClick}
