@@ -11,6 +11,7 @@ export enum ACTIONS {
   LOGGED_IN_VIA = "LOGGED_IN_VIA",
   LOGOUT = "LOGOUT",
   SET_IS_CONNECTED = "SET_IS_CONNECTED",
+  SET_SMART_ACCOUNT = "SET_SMART_ACCOUNT",
 }
 
 export type TInitialStateType = {
@@ -19,6 +20,7 @@ export type TInitialStateType = {
   googleUserInfo: any;
   loggedInVia: string;
   isConnected: boolean;
+  smartAccount: any;
 };
 
 export type TActionType = {
@@ -46,6 +48,7 @@ const initialState: TInitialStateType = {
   googleUserInfo: {},
   loggedInVia: "",
   isConnected: false,
+  smartAccount: {},
 };
 
 export const GlobalContext = createContext<TGlobalContextType>({
@@ -58,11 +61,7 @@ function reducer(state: TInitialStateType, action: TActionType) {
     case ACTIONS.SHOW_TOAST: {
       const payload = action.payload as TToastType;
       if (payload.toastType === "error") {
-        if (
-          state.toastLists.filter(
-            (toast: TToastType) => toast.toastType === "error"
-          ).length < 1
-        ) {
+        if (state.toastLists.filter((toast: TToastType) => toast.toastType === "error").length < 1) {
           return {
             ...state,
             toastLists: [
@@ -81,10 +80,7 @@ function reducer(state: TInitialStateType, action: TActionType) {
       } else {
         return {
           ...state,
-          toastLists: [
-            ...state.toastLists,
-            ...[{ message: payload.message, toastType: payload.toastType }],
-          ],
+          toastLists: [...state.toastLists, ...[{ message: payload.message, toastType: payload.toastType }]],
         };
       }
     }
@@ -137,6 +133,12 @@ function reducer(state: TInitialStateType, action: TActionType) {
         isConnected: false,
       };
     }
+    case ACTIONS.SET_SMART_ACCOUNT: {
+      return {
+        ...state,
+        smartAccount: action.payload as any,
+      };
+    }
     default:
       return state;
   }
@@ -145,10 +147,6 @@ function reducer(state: TInitialStateType, action: TActionType) {
 const GlobalContextProvider = ({ children }: IProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   saveStore({ state, dispatch });
-  return (
-    <GlobalContext.Provider value={{ state, dispatch }}>
-      {children}
-    </GlobalContext.Provider>
-  );
+  return <GlobalContext.Provider value={{ state, dispatch }}>{children}</GlobalContext.Provider>;
 };
 export default GlobalContextProvider;
