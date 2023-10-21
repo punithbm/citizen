@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
+
 import {
   ActivitiesListItem,
   KYCStatus,
@@ -10,6 +11,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { getActivities, getTokens } from "../../apiServices";
 import { SlidingTab } from "../shared";
 import { useAnonAadhaar } from "anon-aadhaar-react";
+import { getTokenFormattedNumber, getTokenValueFormatted } from "../../utils";
 
 export default function HomePage(props: any) {
   const { setStep } = props;
@@ -45,10 +47,26 @@ export default function HomePage(props: any) {
     setAadharStatus(anonAadhaar.status);
   }, [anonAadhaar]);
 
+  const tokenBalance = useMemo(() => {
+    return tokensList.reduce((totalBalance, token: any) => {
+      const tokenValue = Number(
+        getTokenValueFormatted(
+          getTokenFormattedNumber(`${token.balance}`, token.contract_decimals)
+        )
+      );
+      const balance = tokenValue * 0.5;
+      return totalBalance + balance;
+    }, 0);
+  }, [tokensList]);
+
   return (
     <div className="pt-[96px] bg-white h-[100dvh] relative">
       <div className="container mx-auto relative h-full">
-        <WalletActionCard setStep={setStep} aadharStatus={aadharStatus} />
+        <WalletActionCard
+          setStep={setStep}
+          aadharStatus={aadharStatus}
+          tokenBalance={tokenBalance}
+        />
         {aadharStatus === "logged-in" ? (
           <div>
             <div className="mb-4">

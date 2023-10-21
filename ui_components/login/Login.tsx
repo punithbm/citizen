@@ -26,7 +26,7 @@ function Login(props: ILoginProps) {
             Where Citizens Control Crypto
           </p>
         </div>
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[calc(100vw-32px)] lg:w-[388px]">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[calc(100vw-32px)] md:w-[388px]">
           <Button
             onClick={signIn}
             variant={"primary"}
