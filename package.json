@@ -11,6 +11,9 @@
     "lint:fix": "eslint ./ --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore"
   },
   "dependencies": {
+    "@biconomy/account": "^3.1.0",
+    "@biconomy/bundler": "^3.1.0",
+    "@biconomy/paymaster": "^3.1.0",
     "@ethereumjs/util": "^8.0.0",
     "@headlessui/react": "^1.7.16",
     "@instadapp/avocado": "^0.4.5",

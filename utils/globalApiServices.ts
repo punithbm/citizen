@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BaseGoerli } from "./chain/baseGoerli";
+import { Polygon } from "./chain/polygon";
 
 export const globalApiService = (method: string, params?: any) => {
   const headers = new Headers();
@@ -18,7 +18,7 @@ export const globalApiService = (method: string, params?: any) => {
     body,
   };
 
-  const jsonRpcUrl = BaseGoerli.info.url;
+  const jsonRpcUrl = Polygon.info.url;
 
   return fetch(jsonRpcUrl, requestOptions)
     .then((response) => response.json())

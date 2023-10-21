@@ -9,13 +9,7 @@ import { FC, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { parseEther } from "viem";
-
-import {
-  getBalance,
-  getRelayTransactionStatus,
-  getSendTransactionStatus,
-  getUsdPrice,
-} from "../../apiServices";
+import { getBalance, getRelayTransactionStatus, getSendTransactionStatus, getUsdPrice } from "../../apiServices";
 import { GlobalContext } from "../../context/GlobalContext";
 import { LOGGED_IN, THandleStep } from "../../pages";
 import * as loaderAnimation from "../../public/lottie/loader.json";
@@ -37,19 +31,15 @@ import { createSafe } from "@instadapp/avocado";
 import { Button } from "../shared";
 import BottomSheet from "../bottom-sheet";
 import { TaxAlertBottomSheet, TxStatus } from ".";
-
 export interface ILoadChestComponent {
   provider?: any;
 }
 export const SendTx: FC<ILoadChestComponent> = (props) => {
   const { provider } = props;
-
   const {
     state: { loggedInVia, address },
   } = useContext(GlobalContext);
-
   const router = useRouter();
-
   const [value, setValue] = useState("");
   const [price, setPrice] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -66,7 +56,6 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
   const [chestLoadingText, setChestLoadingText] = useState("");
   const [toAddress, setToAddress] = useState("");
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
-
   const handleOpenBottomSheet = () => {
     setOpenBottomSheet(true);
   };
@@ -76,15 +65,12 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
   const handleToggle = () => {
     setToggle(!toggle);
   };
-
   const { sendTransaction } = useWagmi();
-
   useEffect(() => {
     if (address) {
       fetchBalance();
     }
   }, [address]);
-
   const fetchBalance = async () => {
     setLoading(true);
     getUsdPrice()
@@ -92,16 +78,8 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
         setTokenPrice(res.data.ethereum.usd);
         setFromAddress(address);
         const balance = (await getBalance(address)) as any;
-        setTokenValue(
-          getTokenFormattedNumber(
-            hexToNumber(balance.result) as unknown as string,
-            18
-          )
-        );
-        const formatBal = (
-          (hexToNumber(balance.result) / Math.pow(10, 18)) *
-          res.data.ethereum.usd
-        ).toFixed(3);
+        setTokenValue(getTokenFormattedNumber(hexToNumber(balance.result) as unknown as string, 18));
+        const formatBal = ((hexToNumber(balance.result) / Math.pow(10, 18)) * res.data.ethereum.usd).toFixed(3);
         setPrice(getCurrencyFormattedNumber(formatBal));
         setBalanceInUsd(formatBal);
         setLoading(false);
@@ -110,14 +88,12 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
         console.log(e);
       });
   };
-
   const handleValueClick = (val: string) => {
     setValue(`$${val}`);
     const valueWithoutDollarSign = val.replace(/[^\d.]/g, "");
     const tokenIputValue = Number(valueWithoutDollarSign) / Number(tokenPrice);
     setInputValue(getTokenValueFormatted(Number(tokenIputValue)));
   };
-
   const handleInputChange = (val: string) => {
     const valueWithoutDollarSign = val.replace(/[^\d.]/g, "");
     let appendDollar = "";
@@ -135,7 +111,6 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
       setBtnDisable(true);
     }
   };
-
   const createWallet = async () => {
     const _inputValue = inputValue.replace(/[^\d.]/g, "");
     if (_inputValue) {
@@ -143,7 +118,6 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
       const ethProvider = new ethers.providers.Web3Provider(provider);
       const safe = createSafe(ethProvider.getSigner());
       const owner = await safe.getOwnerAddress();
-
       console.log("ethProvider", ethProvider);
       console.log("owner", owner);
       const safeAddr = await safe.getSafeAddress();
@@ -158,7 +132,6 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
       });
     }
   };
-
   return (
     <>
       {" "}
@@ -186,15 +159,11 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                             handleInputChange(e.target.value);
                           }}
                           disabled={loading}
-                          onWheel={() =>
-                            (document.activeElement as HTMLElement).blur()
-                          }
+                          onWheel={() => (document.activeElement as HTMLElement).blur()}
                         />
                         <div className="absolute top-1/2 -translate-y-1/2 right-3">
                           {Number(inputValue) > 0 && (
-                            <p className="text-text-500 paragraph_semibold">
-                              ~ {inputValue} ETH{" "}
-                            </p>
+                            <p className="text-text-500 paragraph_semibold">~ {inputValue} ETH </p>
                           )}
                         </div>
                       </div>
@@ -231,12 +200,11 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                       </div>
                       <p className="meta">
                         {" "}
-                        Bal: {tokenValue} ETH |
-                        <span className="meta pl-2">{price}</span>
+                        Bal: {tokenValue} ETH |<span className="meta pl-2">{price}</span>
                       </p>
                     </div>
                   </div>
-
+                  ​
                   <div className="">
                     <label htmlFor="usdValue" className="label mb-3 block">
                       Address
@@ -267,7 +235,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
               <Lottie animationData={loaderAnimation} />
             </div>
           )}
-
+          ​
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full py-4">
             <Button
               className={`!bg-purple !rounded-3xl !text-base !w-[388px] mx-auto ${
@@ -285,9 +253,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
             setOpenBottomSheet(false);
           }}
         >
-          <TaxAlertBottomSheet
-            handleCloseBottomSheet={handleCloseBottomSheet}
-          />
+          <TaxAlertBottomSheet handleCloseBottomSheet={handleCloseBottomSheet} />
         </BottomSheet>
       </div>
       {/* <TxStatus /> */}

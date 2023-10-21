@@ -2,11 +2,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import { createSafe } from "@instadapp/avocado";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import {
-  CHAIN_NAMESPACES,
-  SafeEventEmitterProvider,
-  WALLET_ADAPTERS,
-} from "@web3auth/base";
+import { CHAIN_NAMESPACES, SafeEventEmitterProvider, WALLET_ADAPTERS } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
@@ -18,24 +14,23 @@ import { toast } from "react-toastify";
 import { useAccount } from "wagmi";
 import { AnonAadhaarProvider } from "anon-aadhaar-react";
 
-import {
-  oauthClientId,
-  productName,
-  web3AuthClientId,
-  web3AuthLoginType,
-  web3AuthVerifier,
-} from "../constants";
+import { oauthClientId, productName, web3AuthClientId, web3AuthLoginType, web3AuthVerifier } from "../constants";
 import { ACTIONS, GlobalContext } from "../context/GlobalContext";
 import BottomSheet from "../ui_components/bottom-sheet";
 import Footer from "../ui_components/footer";
 import Header from "../ui_components/header";
 import HomePage from "../ui_components/home/HomePage";
-import { BaseGoerli } from "../utils/chain/baseGoerli";
 import { useWagmi } from "../utils/wagmi/WagmiContext";
 import Login from "../ui_components/login/Login";
 import { usePathname } from "next/navigation";
 import { SendTx } from "../ui_components/home/Send";
 import { TxStatus } from "../ui_components/home";
+
+import { IPaymaster, BiconomyPaymaster } from "@biconomy/paymaster";
+import { IBundler, Bundler } from "@biconomy/bundler";
+import { BiconomySmartAccount, BiconomySmartAccountV2, DEFAULT_ENTRYPOINT_ADDRESS } from "@biconomy/account";
+import { getAddress } from "viem";
+import { Polygon } from "../utils/chain/polygon";
 
 export type THandleStep = {
   handleSteps: (step: number) => void;
@@ -68,9 +63,7 @@ export default function Home() {
   const { disconnect } = useWagmi();
   const { address, isConnecting } = useAccount();
   const [web3auth, setWeb3auth] = useState<Web3AuthNoModal | null>(null);
-  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
-    null
-  );
+  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
   useEffect(() => {
     const item = localStorage.getItem("isGoogleLogin");
     if (item) {
@@ -84,11 +77,11 @@ export default function Home() {
 
       const chainConfig = {
         chainNamespace: CHAIN_NAMESPACES.EIP155,
-        chainId: "0x27a",
-        rpcTarget: "https://rpc.avocado.instadapp.io",
-        displayName: "Avocado",
-        blockExplorer: "https://rpc.avocado.instadapp.io",
-        ticker: "USDC",
+        chainId: Polygon.chainIdHex,
+        rpcTarget: Polygon.info.rpc,
+        displayName: Polygon.name,
+        blockExplorer: Polygon.explorer.url,
+        ticker: Polygon.symbol,
         tickerName: "Ethereum",
       };
       const web3auth = new Web3AuthNoModal({
@@ -157,12 +150,9 @@ export default function Home() {
       if (web3auth.connected) {
         return;
       }
-      const web3authProvider = await web3auth.connectTo(
-        WALLET_ADAPTERS.OPENLOGIN,
-        {
-          loginProvider: "google",
-        }
-      );
+      const web3authProvider = await web3auth.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+        loginProvider: "google",
+      });
 
       setProvider(web3authProvider);
       const acc = (await getAccounts()) as any;
@@ -185,14 +175,42 @@ export default function Home() {
     }
   };
 
+  const connectWithBiconomy = async (rpcProvider: any) => {
+    try {
+      const web3Provider = new ethers.providers.Web3Provider(rpcProvider, "any");
+      const paymaster = new BiconomyPaymaster({
+        paymasterUrl: "https://paymaster.biconomy.io/api/v1/84531/76v47JPQ6.7a881a9f-4cec-45e0-95e9-c39c71ca54f4",
+      });
+      const bundler: IBundler = new Bundler({
+        bundlerUrl: "https://bundler.biconomy.io/api/v2/84531/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44",
+        chainId: 84531,
+        entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
+      });
+      let wallet = new BiconomySmartAccount({
+        signer: web3Provider.getSigner(),
+        chainId: 84531,
+        bundler: bundler,
+        paymaster: paymaster,
+      });
+      wallet = await wallet.init({
+        accountIndex: 0,
+      });
+      const scw = await wallet.getSmartAccountAddress();
+      return scw;
+    } catch (error) {
+      setLoader(false);
+      toast.error("Something went wrong");
+      console.error(error);
+    }
+  };
+
   const getAccounts = async () => {
     if (!provider) {
       return;
     }
     try {
       const ethProvider = new ethers.providers.Web3Provider(provider);
-      const safe = createSafe(ethProvider.getSigner());
-      const contractAddress = await safe.getSafeAddress();
+      const contractAddress = connectWithBiconomy(ethProvider);
       return contractAddress;
     } catch (error) {
       setLoader(false);
@@ -236,13 +254,7 @@ export default function Home() {
   const getUIComponent = (step: number) => {
     switch (step) {
       case ESTEPS.ONE:
-        return (
-          <Login
-            handleSetupChest={handleSetupChest}
-            loader={loader}
-            signIn={signIn}
-          />
-        );
+        return <Login handleSetupChest={handleSetupChest} loader={loader} signIn={signIn} />;
       case ESTEPS.TWO:
         return <HomePage setStep={setStep} />;
       case ESTEPS.THREE:
@@ -303,12 +315,7 @@ export default function Home() {
           </div>
         )}
 
-        <Header
-          handleSteps={handleSteps}
-          signIn={signIn}
-          step={step}
-          signOut={signOut}
-        />
+        <Header handleSteps={handleSteps} signIn={signIn} step={step} signOut={signOut} />
 
         <ToastContainer
           toastStyle={{ backgroundColor: "#282B30" }}
