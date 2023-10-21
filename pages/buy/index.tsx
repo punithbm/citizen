@@ -142,7 +142,7 @@ export default function Buy() {
 
       <iframe
         id="transakIframe"
-        src="https://global-stg.transak.com/?apiKey=d1b94e78-4eca-4a4e-b64b-e13d64251171"
+        src="https://global-stg.transak.com/?apiKey=e46e7e8f-d959-4151-b0b6-6a0bbdad7252&environment=STAGING"
         allow="camera;microphone;payment"
         height={"100%"}
         width={"100%"}
