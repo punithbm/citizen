@@ -196,6 +196,10 @@ export default function Home() {
         accountIndex: 0,
       });
       const scw = await wallet.getSmartAccountAddress();
+      dispatch({
+        type: ACTIONS.SET_SMART_ACCOUNT,
+        payload: wallet,
+      });
       return scw;
     } catch (error) {
       setLoader(false);
