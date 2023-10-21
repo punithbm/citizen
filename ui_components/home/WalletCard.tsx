@@ -55,11 +55,11 @@ export default function WalletCard() {
       </div>
       <div className="flex items-center justify-between">
         <p className="heading1_black">
-          $5.<span className=" opacity-50">20</span>
+          $0<span className=" opacity-50"></span>
         </p>
         <div className="flex items-center gap-2 bg-primary-600 p-2 rounded-3xl cursor-pointer">
-          <Image src={icons.avalanche} alt="avalanche" />
-          <p className="meta font-medium text-white ">Avalanche</p>
+          <Image className="w-6" src={icons.polygon} alt="polygon" />
+          <p className="meta font-medium text-white ">Polygon Mumbai</p>
         </div>
       </div>
     </div>

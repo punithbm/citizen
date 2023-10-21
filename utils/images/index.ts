@@ -17,6 +17,7 @@ import chevronBack from "../../public/assets/images/chevron_back.svg";
 import arrowDownCircle from "../../public/assets/images/arrow_down_circle.svg";
 import walletIcon from "../../public/assets/images/wallet_icon.png";
 import avalanche from "../../public/assets/images/avalanche.svg";
+import polygon from "../../public/assets/images/polygon.svg";
 import sendIcon from "../../public/assets/images/send_icon.svg";
 import receiveIcon from "../../public/assets/images/receive_icon.svg";
 import swapIcon from "../../public/assets/images/swap_icon.svg";
@@ -51,6 +52,7 @@ export type TImages =
   | "logOut"
   | "notVerified"
   | "close"
+  | "polygon"
   | "arrowDownCircle";
 
 export type TNextImage = {
@@ -86,5 +88,6 @@ export const icons: Record<TImages, TNextImage> = {
   buyIcon,
   logOut,
   notVerified,
+  polygon,
   close,
 };
