@@ -7,8 +7,8 @@
 .heading3_bold {
     @apply font-inter font-bold text-lg text-text-900;
 }
-.subtitle {
-    @apply font-inter font-medium text-medium leading-2 md:text-medium md:leading-2 text-black;
+.subtitle_bold {
+    @apply font-inter font-bold text-medium  text-black;
 }
 
 .support_text_bold {
@@ -23,6 +23,9 @@
 }
 .paragraph_medium {
     @apply font-inter font-medium text-base leading-[20px] text-black;
+}
+.paragraph {
+    @apply font-inter font-normal text-base text-black;
 }
 
 .supportText_regular {

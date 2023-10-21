@@ -10,6 +10,7 @@ import crypto from "crypto";
 
 import { ACTIONS } from "../context/GlobalContext";
 import { getStore } from "../store/GlobalStore";
+import type { Address } from "abitype";
 
 export const ZERO_USD = "$0";
 export const MIN_VAL = 0.000001;
@@ -335,4 +336,17 @@ export const getQuoteFromQuoteRate = (
   return getCurrencyFormattedNumber(
     (value * quoteRate) / Math.pow(10, decimals)
   );
+};
+
+const addressRegex = /^0x[a-fA-F0-9]{40}$/;
+
+export function isAddress(address: string): address is Address {
+  return addressRegex.test(address);
+}
+
+export const isValidEOAAddress = (address: string) => {
+  if (!isAddress(address)) {
+    return false;
+  }
+  return true;
 };

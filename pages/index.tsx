@@ -35,6 +35,7 @@ import { useWagmi } from "../utils/wagmi/WagmiContext";
 import Login from "../ui_components/login/Login";
 import { usePathname } from "next/navigation";
 import { SendTx } from "../ui_components/home/Send";
+import { TxStatus } from "../ui_components/home";
 
 export type THandleStep = {
   handleSteps: (step: number) => void;
@@ -231,7 +232,7 @@ export default function Home() {
   const handleSteps = (step: number) => {
     setStep(step);
   };
-  console.log(step, "step");
+
   const getUIComponent = (step: number) => {
     switch (step) {
       case ESTEPS.ONE:

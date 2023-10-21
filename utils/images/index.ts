@@ -25,6 +25,7 @@ import buyIcon from "../../public/assets/images/buy_icon.svg";
 import logOut from "../../public/assets/images/log_out.svg";
 import notVerified from "../../public/assets/images/not_verified.svg";
 import close from "../../public/assets/images/close.svg";
+import txSuccess from "../../public/assets/images/tx_success.svg";
 
 export type TImages =
   | "logo"
@@ -53,6 +54,7 @@ export type TImages =
   | "notVerified"
   | "close"
   | "polygon"
+  | "txSuccess"
   | "arrowDownCircle";
 
 export type TNextImage = {
@@ -90,4 +92,5 @@ export const icons: Record<TImages, TNextImage> = {
   notVerified,
   polygon,
   close,
+  txSuccess,
 };
