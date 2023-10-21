@@ -29,7 +29,7 @@ export default function KYCStatus(props: any) {
           To get full access to our wallet, verify your KYC now.
         </p>
         <p
-          className="supportText_medium text-primary-800 cursor-pointer mb-4"
+          className="supportText_medium !text-primary-800 cursor-pointer mb-4"
           onClick={handleOpenBottomSheet}
         >
           Know why?
