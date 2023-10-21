@@ -24,6 +24,7 @@ import {
   getTokenFormattedNumber,
   getTokenValueFormatted,
   hexToNumber,
+  isValidEOAAddress,
 } from "../../utils";
 import { BaseGoerli } from "../../utils/chain/baseGoerli";
 import { icons } from "../../utils/images";
@@ -35,7 +36,7 @@ import ReactTyped from "react-typed";
 import { createSafe } from "@instadapp/avocado";
 import { Button } from "../shared";
 import BottomSheet from "../bottom-sheet";
-import { TaxAlertBottomSheet } from ".";
+import { TaxAlertBottomSheet, TxStatus } from ".";
 
 export interface ILoadChestComponent {
   provider?: any;
@@ -126,6 +127,8 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
     setValue(`${appendDollar}${valueWithoutDollarSign}`);
     const tokenIputValue = Number(valueWithoutDollarSign) / Number(tokenPrice);
     setInputValue(getTokenValueFormatted(Number(tokenIputValue)));
+    const isValidAddress = isValidEOAAddress(toAddress);
+    console.log(isValidAddress, "isValidAddress");
     if (Number(valueWithoutDollarSign) < Number(balanceInUsd)) {
       setBtnDisable(false);
     } else {
@@ -157,131 +160,137 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
   };
 
   return (
-    <div className="pt-[120px] bg-white h-[100dvh] relative">
-      <div className="container mx-auto relative h-full">
-        {!transactionLoading ? (
-          <div>
-            {!showActivity ? (
-              <>
-                <div className="w-full">
-                  <div className="relative mb-4">
+    <>
+      {" "}
+      <div className="pt-[120px] bg-white h-[100dvh] relative">
+        <div className="container mx-auto relative h-full">
+          {!transactionLoading ? (
+            <div>
+              {!showActivity ? (
+                <>
+                  <div className="w-full">
+                    <div className="relative mb-4">
+                      <label htmlFor="usdValue" className="label mb-3 block">
+                        Amount
+                      </label>
+                      <div className="relative">
+                        <input
+                          id="usdValue"
+                          name="usdValue"
+                          inputMode="decimal"
+                          type="text"
+                          className={`p-3 heading3_bold border border-secondary-700 bg-transparent placeholder-grey rounded-xl block w-full focus:outline-none focus:ring-transparent`}
+                          placeholder="$0"
+                          value={value}
+                          onChange={(e) => {
+                            handleInputChange(e.target.value);
+                          }}
+                          disabled={loading}
+                          onWheel={() =>
+                            (document.activeElement as HTMLElement).blur()
+                          }
+                        />
+                        <div className="absolute top-1/2 -translate-y-1/2 right-3">
+                          {Number(inputValue) > 0 && (
+                            <p className="text-text-500 paragraph_semibold">
+                              ~ {inputValue} ETH{" "}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="border border-secondary-700 px-2 py-[4.5px] rounded-3xl cursor-pointer"
+                          role="presentation"
+                          onClick={() => {
+                            handleValueClick("10");
+                          }}
+                        >
+                          <p className="meta">$10</p>
+                        </div>
+                        <div
+                          className="border border-secondary-700 px-2 py-[4.5px] rounded-3xl cursor-pointer"
+                          role="presentation"
+                          onClick={() => {
+                            handleValueClick("20");
+                          }}
+                        >
+                          <p className="meta">$20</p>
+                        </div>
+                        <div
+                          className="border border-secondary-700 px-2 py-[4.5px] rounded-3xl cursor-pointer"
+                          role="presentation"
+                          onClick={() => {
+                            handleValueClick("50");
+                          }}
+                        >
+                          <p className="meta">$50</p>
+                        </div>
+                      </div>
+                      <p className="meta">
+                        {" "}
+                        Bal: {tokenValue} ETH |
+                        <span className="meta pl-2">{price}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="">
                     <label htmlFor="usdValue" className="label mb-3 block">
-                      Amount
+                      Address
                     </label>
-                    <div className="relative">
-                      <input
-                        id="usdValue"
-                        name="usdValue"
-                        inputMode="decimal"
-                        type="text"
-                        className={`p-3 heading3_bold border border-secondary-700 bg-transparent placeholder-grey rounded-xl block w-full focus:outline-none focus:ring-transparent`}
-                        placeholder="$0"
-                        value={value}
-                        onChange={(e) => {
-                          handleInputChange(e.target.value);
-                        }}
-                        disabled={loading}
-                        onWheel={() =>
-                          (document.activeElement as HTMLElement).blur()
-                        }
-                      />
-                      <div className="absolute top-1/2 -translate-y-1/2 right-3">
-                        {Number(inputValue) > 0 && (
-                          <p className="text-text-500 paragraph_semibold">
-                            ~ {inputValue} ETH{" "}
-                          </p>
-                        )}
-                      </div>
-                    </div>
+                    <input
+                      type="text"
+                      id="first_name"
+                      className=" border border-secondary-700 text-gray-900 text-sm rounded-xl placeholder-grey block w-full p-3 focus:outline-none focus:ring-transparent"
+                      placeholder="Enter recipient address"
+                      value={toAddress}
+                      onChange={(e) => {
+                        setToAddress(e.target.value);
+                      }}
+                      // onClick={handleOpenBottomSheet}
+                    />
                   </div>
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="border border-secondary-700 px-2 py-[4.5px] rounded-3xl cursor-pointer"
-                        role="presentation"
-                        onClick={() => {
-                          handleValueClick("10");
-                        }}
-                      >
-                        <p className="meta">$10</p>
-                      </div>
-                      <div
-                        className="border border-secondary-700 px-2 py-[4.5px] rounded-3xl cursor-pointer"
-                        role="presentation"
-                        onClick={() => {
-                          handleValueClick("20");
-                        }}
-                      >
-                        <p className="meta">$20</p>
-                      </div>
-                      <div
-                        className="border border-secondary-700 px-2 py-[4.5px] rounded-3xl cursor-pointer"
-                        role="presentation"
-                        onClick={() => {
-                          handleValueClick("50");
-                        }}
-                      >
-                        <p className="meta">$50</p>
-                      </div>
-                    </div>
-                    <p className="meta">
-                      {" "}
-                      Bal: {tokenValue} ETH |
-                      <span className="meta pl-2">{price}</span>
-                    </p>
-                  </div>
-                </div>
+                </>
+              ) : null}
+            </div>
+          ) : (
+            <div className="w-[full] max-w-[600px] h-full relative flex flex-col text-center items-center gap-5 mx-auto mt-20">
+              <ReactTyped
+                className="text-secondary-100 text-[24px]"
+                strings={[chestLoadingText]}
+                typeSpeed={40}
+                loop={true}
+              />
+              <Lottie animationData={loaderAnimation} />
+            </div>
+          )}
 
-                <div className="">
-                  <label htmlFor="usdValue" className="label mb-3 block">
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    id="first_name"
-                    className=" border border-secondary-700 text-gray-900 text-sm rounded-xl placeholder-grey block w-full p-3 focus:outline-none focus:ring-transparent"
-                    placeholder="Enter recipient address"
-                    value={toAddress}
-                    onChange={(e) => {
-                      setToAddress(e.target.value);
-                    }}
-                    // onClick={handleOpenBottomSheet}
-                  />
-                </div>
-              </>
-            ) : null}
-          </div>
-        ) : (
-          <div className="w-[full] max-w-[600px] h-full relative flex flex-col text-center items-center gap-5 mx-auto mt-20">
-            <ReactTyped
-              className="text-secondary-100 text-[24px]"
-              strings={[chestLoadingText]}
-              typeSpeed={40}
-              loop={true}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full py-4">
+            <Button
+              className={`!bg-purple !rounded-3xl !text-base !w-[388px] mx-auto ${
+                btnDisable || !value ? "cursor-not-allowed" : ""
+              } ${!btnDisable && value ? "opacity-100" : "opacity-50"}`}
+              variant={"primary"}
+              label="Continue"
+              onClick={createWallet}
             />
-            <Lottie animationData={loaderAnimation} />
           </div>
-        )}
-
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full py-4">
-          <Button
-            className={`!bg-purple !rounded-3xl !text-base !w-[388px] mx-auto ${
-              btnDisable || !value ? "cursor-not-allowed" : ""
-            } ${!btnDisable && value ? "opacity-100" : "opacity-50"}`}
-            variant={"primary"}
-            label="Continue"
-            onClick={createWallet}
-          />
         </div>
+        <BottomSheet
+          isOpen={openBottomSheet}
+          onClose={() => {
+            setOpenBottomSheet(false);
+          }}
+        >
+          <TaxAlertBottomSheet
+            handleCloseBottomSheet={handleCloseBottomSheet}
+          />
+        </BottomSheet>
       </div>
-      <BottomSheet
-        isOpen={openBottomSheet}
-        onClose={() => {
-          setOpenBottomSheet(false);
-        }}
-      >
-        <TaxAlertBottomSheet handleCloseBottomSheet={handleCloseBottomSheet} />
-      </BottomSheet>
-    </div>
+      {/* <TxStatus /> */}
+    </>
   );
 };
