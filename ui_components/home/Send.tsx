@@ -16,6 +16,7 @@ import {
   getTokenValueFormatted,
   hexToNumber,
   isValidEOAAddress,
+  trimAddress,
 } from "../../utils";
 import { useWagmi } from "../../utils/wagmi/WagmiContext";
 import ReactTyped from "react-typed";
@@ -51,6 +52,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
   const [showActivity, setShowActivity] = useState(false);
   const [chestLoadingText, setChestLoadingText] = useState("");
   const [txHash, setTxHash] = useState("");
+  const [trimTxHash, setTxTrimHash] = useState("");
   const [toAddress, setToAddress] = useState("");
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
   const handleOpenBottomSheet = () => {
@@ -139,7 +141,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
     const _inputValue = inputValue.replace(/[^\d.]/g, "");
     if (_inputValue) {
       setTransactionLoading(true);
-      setChestLoadingText("Initializing wallet and creating link...");
+      setChestLoadingText("Initializing...");
       const amount = ethers.utils.parseEther(_inputValue);
       const data = "0x";
       const tx = {
@@ -171,6 +173,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
         setTimeout(() => {
           setChestLoadingText("Transaction Submitted!");
           setTxHash(`https://mumbai.polygonscan.com/tx/${transactionDetails.receipt.transactionHash}`);
+          setTxTrimHash(trimAddress(transactionDetails.receipt.transactionHash));
         }, 2000);
       } catch (error) {
         console.error("Error executing transaction:", error);
@@ -279,8 +282,13 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                 loop={true}
               />
               {txHash && (
-                <a className="text-purple font-semibold" href={txHash} target="_blank">
-                  {txHash}
+                <a className="text-purple font-semibold" href={txHash} target="">
+                  {trimTxHash}
+                </a>
+              )}
+              {txHash && (
+                <a className=" font-semibold" href={"/"} target="_blank">
+                  Back to Home
                 </a>
               )}
             </div>
@@ -289,7 +297,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full py-4">
             <Button
               className={`!bg-purple !rounded-3xl !text-base !w-[388px] mx-auto ${
-                btnDisable || !value ? "cursor-not-allowed" : ""
+                btnDisable || !value ? "" : ""
               } ${!btnDisable && value ? "opacity-100" : "opacity-50"}`}
               variant={"primary"}
               label="Continue"
