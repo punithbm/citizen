@@ -179,16 +179,16 @@ export default function Home() {
     try {
       const web3Provider = rpcProvider;
       const paymaster = new BiconomyPaymaster({
-        paymasterUrl: "https://paymaster.biconomy.io/api/v1/84531/76v47JPQ6.7a881a9f-4cec-45e0-95e9-c39c71ca54f4",
+        paymasterUrl: "https://paymaster.biconomy.io/api/v1/80001/gtobQPLv-.397a0ea6-298d-4225-bce6-a6fb3024e514",
       });
       const bundler: IBundler = new Bundler({
-        bundlerUrl: "https://bundler.biconomy.io/api/v2/84531/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44",
-        chainId: 84531,
+        bundlerUrl: "https://bundler.biconomy.io/api/v2/80001/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44",
+        chainId: 80001,
         entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
       });
       let wallet = new BiconomySmartAccount({
         signer: web3Provider.getSigner(),
-        chainId: 84531,
+        chainId: 80001,
         bundler: bundler,
         paymaster: paymaster,
       });
