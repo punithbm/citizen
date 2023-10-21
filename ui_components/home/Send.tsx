@@ -279,7 +279,12 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                 loop={true}
               />
               {txHash && (
-                <a className="text-purple font-semibold" href={txHash} target="_blank">
+                <a
+                  style={{ wordBreak: "break-word" }}
+                  className="text-purple font-semibold"
+                  href={txHash}
+                  target="_blank"
+                >
                   {txHash}
                 </a>
               )}
