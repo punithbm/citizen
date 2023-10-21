@@ -1,41 +1,41 @@
 .heading1_black {
-    @apply font-inter font-black text-xl text-text-900;
+    @apply font-inter font-black text-xl text-text-100;
 }
 .heading2_extrabold {
-    @apply font-inter font-extrabold text-xxl text-text-900;
+    @apply font-inter font-extrabold text-xxl text-text-100;
 }
 .heading3_bold {
-    @apply font-inter font-bold text-lg text-text-900;
+    @apply font-inter font-bold text-lg text-text-100;
 }
 .subtitle_bold {
-    @apply font-inter font-bold text-medium  text-black;
+    @apply font-inter font-bold text-medium  text-white;
 }
 
 .support_text_bold {
-    @apply font-inter font-semibold text-base leading-1 md:text-base md:leading-1 text-black;
+    @apply font-inter font-semibold text-base leading-1 md:text-base md:leading-1 text-white;
 }
 .support_text_semibold {
-    @apply font-inter font-semibold text-base  text-black;
+    @apply font-inter font-semibold text-base  text-white;
 }
 
 .paragraph_semibold {
     @apply font-inter font-semibold text-base text-black;
 }
 .paragraph_medium {
-    @apply font-inter font-medium text-base leading-[20px] text-black;
+    @apply font-inter font-medium text-base leading-[20px] text-white;
 }
 .paragraph {
-    @apply font-inter font-normal text-base text-black;
+    @apply font-inter font-normal text-base text-white;
 }
 
 .supportText_regular {
-    @apply font-inter font-normal text-sm text-black;
+    @apply font-inter font-normal text-sm text-white;
 }
 .supportText_medium {
-    @apply font-inter font-medium text-sm text-black;
+    @apply font-inter font-medium text-sm text-white;
 }
 .supportText_bold {
-    @apply font-inter font-bold text-sm text-black;
+    @apply font-inter font-bold text-sm text-white;
 }
 .meta {
     @apply font-inter font-normal text-xs text-text-500;
