@@ -1,24 +1,16 @@
 import "react-toastify/dist/ReactToastify.css";
-import { initWasm } from "@trustwallet/wallet-core";
-import { serializeError } from "eth-rpc-errors";
+
 import { BigNumber, ethers } from "ethers";
 import Lottie from "lottie-react";
-import Image from "next/image";
+
 import { useRouter } from "next/router";
 import { FC, useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
+
 import { parseEther } from "viem";
 
-import {
-  getBalance,
-  getRelayTransactionStatus,
-  getSendTransactionStatus,
-  getUsdPrice,
-} from "../../apiServices";
+import { getBalance, getUsdPrice } from "../../apiServices";
 import { GlobalContext } from "../../context/GlobalContext";
-import { LOGGED_IN, THandleStep } from "../../pages";
-import * as loaderAnimation from "../../public/lottie/loader.json";
+
 import {
   getCurrencyFormattedNumber,
   getTokenFormattedNumber,
@@ -26,11 +18,6 @@ import {
   hexToNumber,
   isValidEOAAddress,
 } from "../../utils";
-import { BaseGoerli } from "../../utils/chain/baseGoerli";
-import { icons } from "../../utils/images";
-import { Wallet } from "../../utils/wallet";
-import PrimaryBtn from "../PrimaryBtn";
-import SecondaryBtn from "../SecondaryBtn";
 import { useWagmi } from "../../utils/wagmi/WagmiContext";
 import ReactTyped from "react-typed";
 import { createSafe } from "@instadapp/avocado";
@@ -193,7 +180,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                         <div className="absolute top-1/2 -translate-y-1/2 right-3">
                           {Number(inputValue) > 0 && (
                             <p className="text-text-500 paragraph_semibold">
-                              ~ {inputValue} ETH{" "}
+                              ~ {inputValue} MATIC{" "}
                             </p>
                           )}
                         </div>
@@ -231,7 +218,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                       </div>
                       <p className="meta">
                         {" "}
-                        Bal: {tokenValue} ETH |
+                        Bal: {tokenValue} MATIC |
                         <span className="meta pl-2">{price}</span>
                       </p>
                     </div>
@@ -264,7 +251,6 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                 typeSpeed={40}
                 loop={true}
               />
-              <Lottie animationData={loaderAnimation} />
             </div>
           )}
 

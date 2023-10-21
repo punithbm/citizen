@@ -1,28 +1,20 @@
 import Image from "next/image";
 
 import { icons } from "../../utils/images";
-import { getNounAvatar, trimAddress } from "../../utils";
-import { publicClient } from "../../utils/viem";
-import { useContext, useMemo, useState } from "react";
-import { GlobalContext } from "../../context/GlobalContext";
-import { getUsdPrice } from "../../apiServices";
+import {
+  getCurrencyFormattedNumber,
+  getNounAvatar,
+  trimAddress,
+} from "../../utils";
 
-export default function WalletCard() {
+import { useContext } from "react";
+import { GlobalContext } from "../../context/GlobalContext";
+
+export default function WalletCard(props: any) {
+  const { tokenBalance } = props;
   const {
     state: { address },
   } = useContext(GlobalContext);
-  const [balance, setBalance] = useState(0);
-  useMemo(async () => {
-    if (address) {
-      //@ts-ignore
-      const balance = await publicClient.getBalance({ address });
-      getUsdPrice().then(async (res: any) => {
-        const formatBal =
-          (Number(balance) / Math.pow(10, 18)) * res.data.ethereum.usd;
-        setBalance(formatBal);
-      });
-    }
-  }, [address]);
 
   const copyToClipBoard = (e: any) => {
     e.preventDefault();
@@ -55,7 +47,7 @@ export default function WalletCard() {
       </div>
       <div className="flex items-center justify-between">
         <p className="heading1_black">
-          $0<span className=" opacity-50"></span>
+          {getCurrencyFormattedNumber(tokenBalance)}
         </p>
         <div className="flex items-center gap-2 bg-primary-600 p-2 rounded-3xl cursor-pointer">
           <Image className="w-6" src={icons.polygon} alt="polygon" />
