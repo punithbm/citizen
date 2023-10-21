@@ -8,16 +8,18 @@ import { icons } from "../../utils/images";
 
 import BackBtn from "../BackBtn";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 interface IHeader {
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
   step: number;
+  title?: string;
   handleSteps?: (step: number) => void;
 }
 
 const Header = (props: IHeader) => {
-  const { step, signIn, signOut, handleSteps } = props;
+  const { step, signIn, signOut, handleSteps, title } = props;
 
   const {
     state: { isConnected },
@@ -36,7 +38,7 @@ const Header = (props: IHeader) => {
               step === 3 ? handleSteps?.(step - 1) : router.back();
             }}
           />
-          <p className="heading3_bold text-white">Send</p>
+          <p className="heading3_bold text-white">{title ?? "Send"}</p>
         </div>
       )}
 

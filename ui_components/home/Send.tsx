@@ -10,19 +10,14 @@ import { parseEther } from "viem";
 import { getBalance, getRelayTransactionStatus, getSendTransactionStatus, getUsdPrice } from "../../apiServices";
 import { GlobalContext } from "../../context/GlobalContext";
 
-import {
-  getCurrencyFormattedNumber,
-  getTokenFormattedNumber,
-  getTokenValueFormatted,
-  hexToNumber,
-  isValidEOAAddress,
-} from "../../utils";
+import { getCurrencyFormattedNumber, getTokenFormattedNumber, getTokenValueFormatted, hexToNumber, isValidEOAAddress } from "../../utils";
 import { useWagmi } from "../../utils/wagmi/WagmiContext";
 import ReactTyped from "react-typed";
 import { createSafe } from "@instadapp/avocado";
 import { Button } from "../shared";
 import BottomSheet from "../bottom-sheet";
 import { TaxAlertBottomSheet, TxStatus } from ".";
+import React from "react";
 export interface ILoadChestComponent {
   provider?: any;
 }
@@ -67,11 +62,13 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
     setLoading(true);
     getUsdPrice()
       .then(async (res: any) => {
-        setTokenPrice(res.data.ethereum.usd);
+        // @ts-ignore
+        setTokenPrice(res["data"]["matic-network"]["usd"]);
         setFromAddress(address);
         const balance = (await getBalance(address)) as any;
         setTokenValue(getTokenFormattedNumber(hexToNumber(balance.result) as unknown as string, 18));
-        const formatBal = ((hexToNumber(balance.result) / Math.pow(10, 18)) * res.data.ethereum.usd).toFixed(3);
+        // @ts-ignore
+        const formatBal = ((hexToNumber(balance.result) / Math.pow(10, 18)) * res["data"]["matic-network"]["usd"]).toFixed(3);
         setPrice(getCurrencyFormattedNumber(formatBal));
         setBalanceInUsd(formatBal);
         setLoading(false);
@@ -153,13 +150,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                           disabled={loading}
                           onWheel={() => (document.activeElement as HTMLElement).blur()}
                         />
-                        <div className="absolute top-1/2 -translate-y-1/2 right-3">
-                          {Number(inputValue) > 0 && (
-                            <p className="text-text-500 paragraph_semibold">
-                              ~ {inputValue} MATIC{" "}
-                            </p>
-                          )}
-                        </div>
+                        <div className="absolute top-1/2 -translate-y-1/2 right-3">{Number(inputValue) > 0 && <p className="text-text-500 paragraph_semibold">~ {inputValue} MATIC </p>}</div>
                       </div>
                     </div>
                     <div className="flex items-center justify-between mb-8">
@@ -194,8 +185,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                       </div>
                       <p className="meta">
                         {" "}
-                        Bal: {tokenValue} MATIC |
-                        <span className="meta pl-2">{price}</span>
+                        Bal: {tokenValue} MATIC |<span className="meta pl-2">{price}</span>
                       </p>
                     </div>
                   </div>
@@ -221,24 +211,12 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
             </div>
           ) : (
             <div className="w-[full] max-w-[600px] h-full relative flex flex-col text-center items-center gap-5 mx-auto mt-20">
-              <ReactTyped
-                className="text-secondary-100 text-[24px]"
-                strings={[chestLoadingText]}
-                typeSpeed={40}
-                loop={true}
-              />
+              <ReactTyped className="text-secondary-100 text-[24px]" strings={[chestLoadingText]} typeSpeed={40} loop={true} />
             </div>
           )}
           ​
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full py-4">
-            <Button
-              className={`!bg-purple !rounded-3xl !text-base !w-[388px] mx-auto ${
-                btnDisable || !value ? "cursor-not-allowed" : ""
-              } ${!btnDisable && value ? "opacity-100" : "opacity-50"}`}
-              variant={"primary"}
-              label="Continue"
-              onClick={createWallet}
-            />
+            <Button className={`!bg-purple !rounded-3xl !text-base !w-[388px] mx-auto ${btnDisable || !value ? "cursor-not-allowed" : ""} ${!btnDisable && value ? "opacity-100" : "opacity-50"}`} variant={"primary"} label="Continue" onClick={createWallet} />
           </div>
         </div>
         <BottomSheet

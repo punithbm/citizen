@@ -11,6 +11,7 @@ import { useWagmi } from "../../utils/wagmi/WagmiContext";
 import { createSafe } from "@instadapp/avocado";
 import { ethers } from "ethers";
 import BackBtn from "../../ui_components/BackBtn";
+import React from "react";
 
 export default function Buy() {
   const {
@@ -137,7 +138,7 @@ export default function Buy() {
 
   return (
     <div className="relative h-screen">
-      <Header signIn={signIn} step={step} signOut={signOut} />
+      <Header signIn={signIn} step={step} signOut={signOut} title="Buy" />
 
       <iframe
         id="transakIframe"
