@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useContext, useEffect, useMemo, useRef } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { trimAddress } from "../../utils";
+import React from "react";
 
 const useQRCodeStyling = (
   options: QRCodeStylingOptions
@@ -86,7 +87,7 @@ export default function ReceiveQR(props: any) {
           className="cursor-pointer"
         />
       </div>
-      <p className="supportText_regular text-text-500 text-center">
+      <p className="supportText_regular !text-text-500 text-center">
         Scan this QR on your wallet
       </p>
       <div
@@ -94,7 +95,7 @@ export default function ReceiveQR(props: any) {
         className="w-[250px]  h-[250px] mt-[20px] mb-5 mx-[auto]"
       />
       <p className="meta text-center mb-6">Or</p>
-      <p className="supportText_regular text-text-500 text-center mb-4">
+      <p className="supportText_regular !text-text-500 text-center mb-4">
         Paste this wallet ID to your wallet
       </p>
       <div className="flex items-center gap-3 justify-center bg-secondary-700 p-4 rounded-2xl mb-4">

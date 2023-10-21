@@ -16,7 +16,7 @@ export default function TaxAlertBottomSheet(props: any) {
           className="cursor-pointer"
         />
       </div>
-      <p className="supportText_regular text-text-500 mb-9">
+      <p className="supportText_regular !text-text-500 mb-9">
         Your transaction amount exceeds ₹10,000. A 10% tax will be applied to
         all transactions above ₹10,000.
       </p>

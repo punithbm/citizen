@@ -32,7 +32,7 @@ const Header = (props: IHeader) => {
       {step === 1 || step === 2 ? (
         <>
           <Image src={icons.logo} alt="logo" className="w-10" />
-          <p className="heading3_bold text-white">{"Citizen"}</p>
+          <p className="heading3_bold !text-white">{"Citizen"}</p>
         </>
       ) : (
         <div className="flex items-center gap-3">
@@ -41,7 +41,7 @@ const Header = (props: IHeader) => {
               step === 3 ? handleSteps?.(step - 1) : router.back();
             }}
           />
-          <p className="heading3_bold text-white">{title ?? "Send"}</p>
+          <p className="heading3_bold !text-white">{title ?? "Send"}</p>
         </div>
       )}
 

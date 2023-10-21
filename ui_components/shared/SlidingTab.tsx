@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { FC, useEffect, useRef, useState } from "react";
 
 export interface ISlidingTabProps {
@@ -39,8 +40,8 @@ const SlidingTab: FC<ISlidingTabProps> = ({
               ref={(el) => (tabsRef.current[index] = el)}
               className={`supportText_regular relative z-10 cursor-pointer px-4 py-2 grow text-center ${
                 activeTab === tab.id
-                  ? "text-text-900 font-semibold"
-                  : "text-text-500"
+                  ? "!text-text-900 font-semibold"
+                  : "!text-text-500"
               }`}
               onClick={() => handleTabClick(tab.id)}
             >

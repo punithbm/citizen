@@ -3,6 +3,7 @@ import { icons } from "../../utils/images";
 import { LogInWithAnonAadhaar } from "anon-aadhaar-react";
 import BottomSheet from "../bottom-sheet";
 import { useState } from "react";
+import React from "react";
 
 export default function KYCStatus(props: any) {
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
@@ -21,10 +22,10 @@ export default function KYCStatus(props: any) {
           alt="not verified"
           className="mx-auto mb-6"
         />
-        <p className="paragraph_semibold text-text-900 mb-2">
+        <p className="paragraph_semibold !text-text-900 mb-2">
           Your KYC is not verified!
         </p>
-        <p className="supportText_regular text-text-500 mb-4">
+        <p className="supportText_regular !text-text-500 mb-4">
           To get full access to our wallet, verify your KYC now.
         </p>
         <p
@@ -43,7 +44,7 @@ export default function KYCStatus(props: any) {
       >
         <div className="px-4 py-5">
           <div className="flex items-center justify-between mb-5">
-            <p className="paragraph_semibold text-text-900">Why KYC?</p>
+            <p className="paragraph_semibold !text-text-900">Why KYC?</p>
             <Image
               onClick={handleCloseBottomSheet}
               src={icons.close}
@@ -51,7 +52,7 @@ export default function KYCStatus(props: any) {
               className="cursor-pointer"
             />
           </div>
-          <p className="supportText_regular text-text-500">
+          <p className="supportText_regular !text-text-500">
             We believe regulatory compliance is essential for building trust in
             DeFi and bringing it to the masses. We invite builders to create a
             web3 wallet that combines security, convenience, and regulatory

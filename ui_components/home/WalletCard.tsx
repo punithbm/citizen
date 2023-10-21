@@ -7,7 +7,7 @@ import {
   trimAddress,
 } from "../../utils";
 
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 
 export default function WalletCard(props: any) {
@@ -33,7 +33,7 @@ export default function WalletCard(props: any) {
           alt="wallet"
         />
         <div>
-          <p className="supportText_medium text-text-500 mb-1">My wallet</p>
+          <p className="supportText_medium !text-text-500 mb-1">My wallet</p>
           <div className="flex items-center gap-2">
             <p className="paragraph_semibold">{trimAddress(address)}</p>
             <Image
@@ -51,7 +51,7 @@ export default function WalletCard(props: any) {
         </p>
         <div className="flex items-center gap-2 bg-primary-600 p-2 rounded-3xl cursor-pointer">
           <Image className="w-6" src={icons.polygon} alt="polygon" />
-          <p className="meta font-medium text-white ">Polygon Mumbai</p>
+          <p className="meta font-medium !text-white ">Polygon Mumbai</p>
         </div>
       </div>
     </div>

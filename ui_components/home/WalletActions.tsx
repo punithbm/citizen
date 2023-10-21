@@ -6,6 +6,7 @@ import BottomSheet from "../bottom-sheet";
 import { useState } from "react";
 import Image from "next/image";
 import { ReceiveQR } from ".";
+import React from "react";
 
 export default function WalletActions(props: any) {
   const { setStep, aadharStatus } = props;
@@ -72,7 +73,7 @@ export default function WalletActions(props: any) {
           <li key={item.id} onClick={item.onClick}>
             <IconButton
               type="button"
-              className={`flex flex-col items-center meta_medium outline-0 text-white ${
+              className={`flex flex-col items-center meta_medium outline-0 !text-white ${
                 item.disabled ? "cursor-not-allowed" : ""
               }`}
               leftIcon={

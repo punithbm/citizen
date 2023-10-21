@@ -1,3 +1,4 @@
+import React from "react";
 import {
   getCurrencyFormattedNumber,
   getTokenFormattedNumber,
@@ -18,7 +19,7 @@ export default function TokenListItem(props: any) {
       <div className="flex items-center gap-2">
         <img className="w-12" src={icons.polygon.src} alt="" />
         <div className="">
-          <p className="supportText_bold  text-text-900 mb-1">
+          <p className="supportText_bold  !text-text-900 mb-1">
             {" "}
             {tokenValue} {token.contract_ticker_symbol}
           </p>
@@ -26,7 +27,7 @@ export default function TokenListItem(props: any) {
         </div>
       </div>
       <div className="text-right">
-        <p className="supportText_bold text-text-900 mb-1">
+        <p className="supportText_bold !text-text-900 mb-1">
           {getCurrencyFormattedNumber(convertedBalance)}
         </p>
       </div>

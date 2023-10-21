@@ -201,7 +201,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                           name="usdValue"
                           inputMode="decimal"
                           type="text"
-                          className={`p-3 heading3_bold border border-secondary-700 bg-transparent placeholder-grey rounded-xl block w-full focus:outline-none focus:ring-transparent`}
+                          className={`p-3 heading3_bold border !text-black border-secondary-700 bg-transparent placeholder-grey rounded-xl block w-full focus:outline-none focus:ring-transparent`}
                           placeholder="$0"
                           value={value}
                           onChange={(e) => {
@@ -212,7 +212,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                         />
                         <div className="absolute top-1/2 -translate-y-1/2 right-3">
                           {Number(inputValue) > 0 && (
-                            <p className="text-text-500 paragraph_semibold">~ {inputValue} MATIC </p>
+                            <p className="!text-text-500 paragraph_semibold">~ {inputValue} MATIC </p>
                           )}
                         </div>
                       </div>
@@ -276,18 +276,18 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
           ) : (
             <div className="w-[full] max-w-[600px] h-full relative flex flex-col text-center items-center gap-5 mx-auto mt-20">
               <ReactTyped
-                className="text-secondary-100 text-[24px]"
+                className="!text-secondary-100 text-[24px]"
                 strings={[chestLoadingText]}
                 typeSpeed={40}
                 loop={true}
               />
               {txHash && (
-                <a className="text-purple font-semibold" href={txHash} target="">
+                <a className="text-purple font-semibold" href={txHash} target="_blank">
                   {trimTxHash}
                 </a>
               )}
               {txHash && (
-                <a className=" font-semibold" href={"/"} target="_blank">
+                <a className=" font-semibold" href={"/"} target="">
                   Back to Home
                 </a>
               )}
@@ -298,7 +298,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
             <Button
               className={`!bg-purple !rounded-3xl !text-base !w-[388px] mx-auto ${
                 btnDisable || !value ? "" : ""
-              } ${!btnDisable && value ? "opacity-100" : "opacity-50"}`}
+              } ${!btnDisable && value ? "opacity-100" : "opacity-100"}`}
               variant={"primary"}
               label="Continue"
               onClick={createWallet}

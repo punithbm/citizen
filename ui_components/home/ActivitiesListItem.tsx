@@ -1,3 +1,4 @@
+import React from "react";
 import {
   TXN_TYPE,
   getCurrencyFormattedNumber,
@@ -23,7 +24,7 @@ export default function ActivitiesListItem(props: any) {
       <div className="flex items-center gap-2">
         <img className="w-12" src={activity?.gas_metadata?.logo_url} alt="" />
         <div className="">
-          <p className="supportText_bold  text-text-900 mb-1">
+          <p className="supportText_bold !text-text-900 mb-1">
             {getTokenValueFormatted(
               getTokenFormattedNumber(
                 `${activity.balance}`,
@@ -78,7 +79,7 @@ export default function ActivitiesListItem(props: any) {
         </div>
       </div>
       <div className="text-right">
-        <p className="supportText_bold text-text-900 mb-1">
+        <p className="supportText_bold !text-text-900 mb-1">
           {getQuoteFromQuoteRate(
             Number(activity.value),
             activity?.gas_metadata?.decimals,
