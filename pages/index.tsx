@@ -177,7 +177,7 @@ export default function Home() {
 
   const connectWithBiconomy = async (rpcProvider: any) => {
     try {
-      const web3Provider = new ethers.providers.Web3Provider(rpcProvider, "any");
+      const web3Provider = rpcProvider;
       const paymaster = new BiconomyPaymaster({
         paymasterUrl: "https://paymaster.biconomy.io/api/v1/84531/76v47JPQ6.7a881a9f-4cec-45e0-95e9-c39c71ca54f4",
       });
