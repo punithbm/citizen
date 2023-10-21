@@ -50,6 +50,7 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
   const [balanceInUsd, setBalanceInUsd] = useState("");
   const [showActivity, setShowActivity] = useState(false);
   const [chestLoadingText, setChestLoadingText] = useState("");
+  const [txHash, setTxHash] = useState("");
   const [toAddress, setToAddress] = useState("");
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
   const handleOpenBottomSheet = () => {
@@ -162,10 +163,15 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
           paymasterServiceData
         );
         partialUserOp.paymasterAndData = paymasterAndDataResponse.paymasterAndData;
-
         const userOpResponse = await smartAccount.sendUserOp(partialUserOp);
         const transactionDetails = await userOpResponse.wait();
-        console.log("txHash", `https://mumbai.polygonscan.com/${transactionDetails.receipt.transactionHash}`);
+        // console.log("transactionDetails", transactionDetails);
+        // console.log("txHash", `https://mumbai.polygonscan.com/tx/${transactionDetails.receipt.transactionHash}`);
+        setChestLoadingText("Success! Transaction Processed");
+        setTimeout(() => {
+          setChestLoadingText("Transaction Submitted!");
+          setTxHash(`https://mumbai.polygonscan.com/tx/${transactionDetails.receipt.transactionHash}`);
+        }, 2000);
       } catch (error) {
         console.error("Error executing transaction:", error);
       }
@@ -272,6 +278,11 @@ export const SendTx: FC<ILoadChestComponent> = (props) => {
                 typeSpeed={40}
                 loop={true}
               />
+              {txHash && (
+                <a className="text-purple font-semibold" href={txHash} target="_blank">
+                  {txHash}
+                </a>
+              )}
             </div>
           )}
           ​
